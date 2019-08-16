@@ -106,8 +106,6 @@ public class ProyectoPOO extends Application {
         StackPane root= new StackPane(boxmaster);
         Scene scene = new Scene(root, 1280, 720);
         root.setBackground(this.background);
-        /*Events handlers */
-        iniciar.setOnAction(new IniciarSesion(new ArrayList<TextField>(Arrays.asList(username,password))));
         primaryStage.setTitle("A Fox's Gallery");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -117,23 +115,7 @@ public class ProyectoPOO extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+
         launch(args);
-    }
-    private class IniciarSesion implements EventHandler<ActionEvent>{
-        ArrayList<TextField> lista;
-        IniciarSesion(ArrayList<TextField> x){
-            this.lista=x;
-        }
-        public void handle(ActionEvent e){
-            User user=new User(lista.get(0).getText(),lista.get(1).getText());
-            ArrayList resultado= user.IniciarSesion();
-            if ((boolean) resultado.get(0)==false){
-                Alert alerta=new Alert(Alert.AlertType.ERROR);
-                alerta.setHeaderText("Esto es header");
-                alerta.setTitle("Esto es title");
-                alerta.setContentText("Esto es el contentText");
-                alerta.show();
-            }
-        }
     }
 }
