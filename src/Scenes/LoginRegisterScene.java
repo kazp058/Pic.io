@@ -7,6 +7,7 @@ package Scenes;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
@@ -26,9 +27,9 @@ public class LoginRegisterScene implements ControllableScene{
         
         HBox hbox = new HBox();
         Label label = new Label("AHHH");
+        Button btn = new Button("Puto el que lo lea");
         
         hbox.setAlignment(Pos.CENTER);
-        
         hbox.getChildren().addAll(label);
         
         return new Scene(hbox,myController.getSize()[0],myController.getSize()[1]);
