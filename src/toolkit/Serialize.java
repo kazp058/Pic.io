@@ -42,6 +42,8 @@ public class Serialize {
     }
     
     public ArrayList<Object> iniciarSesion(User user) {
+        /* Retorna un ArrayList donde el primer valor retorna un bool que indica si se pudo completar la acción y el
+        otro es el usuario*/
        ArrayList<Object> resultado=new ArrayList<>();
        ArrayList importacion=this.importar();
        HashMap<String,User> usuarios=(HashMap<String,User>) importacion.get(2);

@@ -40,4 +40,6 @@ public class ScreensController {
     public Integer[] getSize(){
         return this.size;
     }
+
+    public void setCurrentUser(User user) { this.currentUser=user; }
 }
