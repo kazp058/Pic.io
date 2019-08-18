@@ -18,17 +18,20 @@ import javafx.stage.Stage;
 public class MainClass extends Application {
 
     public static String loginName = "login";
+    public static String mainName = "main";
     
     public void start(Stage primaryStage){
         
         ScreensController myController = new ScreensController();
 
         ControllableScene loginScene = new LoginRegisterScene();
+        ControllableScene mainScene = new MainScene();
         
         myController.setSize(new Integer[]{1280,720});
         
         myController.addScene(this.loginName, loginScene);
-        myController.setScene(loginName);
+        myController.addScene(this.mainName, mainScene);
+        myController.setScene(mainName);
                 
         Scene scene = myController.getScene();
         

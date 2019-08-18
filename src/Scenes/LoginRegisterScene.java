@@ -27,6 +27,9 @@ public class LoginRegisterScene implements ControllableScene{
     Background background;
     ScreensController myController;
     
+    public LoginRegisterScene(){
+    }
+    
     public LoginRegisterScene(Font f,Background b){
         font=f; background=b;
     }
@@ -35,16 +38,12 @@ public class LoginRegisterScene implements ControllableScene{
     public Scene getScene() {
 
         HBox hbox = new HBox();
-        Label label = new Label("AHHH");
-<<<<<<< HEAD
+        Label label = new Label("EEEEEEHHHH");
         Button btn = new Button("Puto el que lo lea");
         
         hbox.setAlignment(Pos.CENTER);
-=======
 
         hbox.setAlignment(Pos.CENTER);
-
->>>>>>> b3e4c2108780adde6c2e63711f3555471cbfd408
         hbox.getChildren().addAll(label);
 
         return new Scene(hbox,myController.getSize()[0],myController.getSize()[1]);
