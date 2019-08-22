@@ -8,7 +8,9 @@ package Scenes;
 import Main.MainClass;
 import clases.Album;
 import clases.BAlbum;
+import java.io.File;
 import java.util.Arrays;
+import java.util.List;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -26,6 +28,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -42,6 +47,8 @@ public class MainScene implements ControllableScene {
 
     private Pane main = usersPane();
     private BorderPane root;
+    
+    private Stage uploadStage;
 
     public MainScene() {
         root = new BorderPane();
@@ -88,7 +95,7 @@ public class MainScene implements ControllableScene {
         checkUsers = new Button("Amigos");
         myGallery = new Button("Mi Galeria");
         createSlideShow = new Button("Crear SlideShow");
-        createAlbum = new Button("Crear Album");
+        createAlbum = new Button("Añadir imagen");
 
         checkUsers.setStyle("-fx-font-size:25");
         myGallery.setStyle("-fx-font-size:25");
@@ -98,6 +105,21 @@ public class MainScene implements ControllableScene {
         checkUsers.setOnAction((e) -> {
             main = usersPane();
             root.setCenter(main);
+        });
+
+        createAlbum.setOnAction((e) -> {
+
+            uploadStage = new Stage();
+            uploadStage.setTitle("Añadir imagen");
+            uploadStage.toFront();
+            
+            uploadStage.initStyle(StageStyle.UTILITY);
+            uploadStage.setAlwaysOnTop(true);
+
+
+            uploadStage.setScene(getUploadScene());
+            uploadStage.show();
+
         });
 
         myGallery.setOnAction((e) -> {
@@ -135,9 +157,9 @@ public class MainScene implements ControllableScene {
     private ScrollPane imagePane() {
         VBox pane = new VBox();
         ScrollPane m = new ScrollPane();
-        
+
         pane.setPadding(new Insets(5, 15, 0, 15));
-        Button addAlbum = new Button("Agregar Album");
+        Button addAlbum = new Button("Añadir imagen");
 
         addAlbum.setStyle("-fx-font-size:25");
         addAlbum.setMaxWidth(Double.MAX_VALUE);
@@ -146,18 +168,13 @@ public class MainScene implements ControllableScene {
 
         try {
             for (Album album : myController.getCurrentUser().getAlbumes()) {
-                BAlbum Albumview=new BAlbum(album,album.Getname());
+                BAlbum Albumview = new BAlbum(album, album.Getname());
                 pane.getChildren().add(Albumview);
             }
-<<<<<<< HEAD
-        } catch (Exception e) {
-            System.out.println("AHAHAHAH");
-=======
-        } catch (NullPointerException e){
-            Label label= new Label("Qué triste, no tienes albumes. Pero tranquilo, ¡Agrega uno!");
+        } catch (NullPointerException e) {
+            Label label = new Label("Qué triste, no tienes albumes. Pero tranquilo, ¡Agrega uno!");
             pane.getChildren().add(label);
-                    
->>>>>>> 8be95bf7df26efab45e12f462ed14498fd2825c8
+
         }
         m.setContent(pane);
         m.setPrefSize(Double.MAX_VALUE, Double.MAX_VALUE);
@@ -177,6 +194,46 @@ public class MainScene implements ControllableScene {
         Button btn = new Button(album.Getname());
         btn.setMaxWidth(Double.MAX_VALUE);
         return btn;
+    }
+
+    private Scene getUploadScene() {
+
+        VBox main = new VBox();
+        HBox data = new HBox();
+
+        Label name = new Label("Nombre de la foto");
+        name.setStyle("-fx-font-size:25");
+        TextField nameI = new TextField();
+        Button choseFiles = new Button("Seleccionar imagen");
+
+        choseFiles.setOnAction((e) -> {
+            FileChooser fc = new FileChooser();
+            fc.setTitle("Selecciona una imagen");
+            fc.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("All Images", "*.*"),
+                    new FileChooser.ExtensionFilter("JPG", "*.jpg"),
+                    new FileChooser.ExtensionFilter("PNG", "*.png"),
+                    new FileChooser.ExtensionFilter("JPEG", "*.jpeg")
+            );
+            File image = fc.showOpenDialog(myController.getStage());
+            
+        });
+
+        data.getChildren().addAll(name, nameI);
+        main.getChildren().addAll(data, choseFiles);
+        
+        main.setAlignment(Pos.TOP_CENTER);
+        data.setAlignment(Pos.CENTER);
+        data.setSpacing(20);
+        main.setSpacing(10);
+        
+        main.setPadding(new Insets(10,0,0,0));
+
+        name.setAlignment(Pos.CENTER_RIGHT);
+        nameI.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(main, 800, 600);
+        return scene;
     }
     /*private Button agregarAlbum(){
         
