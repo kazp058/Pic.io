@@ -7,6 +7,8 @@ package Scenes;
 
 import Main.MainClass;
 import clases.Album;
+import clases.BAlbum;
+import java.util.Arrays;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -143,10 +145,13 @@ public class MainScene implements ControllableScene {
 
         try {
             for (Album album : myController.getCurrentUser().getAlbumes()) {
-                pane.getChildren().add(generateAlbum(album));
+                BAlbum Albumview=new BAlbum(album,album.Getname());
+                pane.getChildren().add(Albumview);
             }
-        } catch (Exception e){
-            System.out.println("AHAHAHAH");
+        } catch (NullPointerException e){
+            Label label= new Label("Qué triste, no tienes albumes. Pero tranquilo, ¡Agrega uno!");
+            pane.getChildren().add(label);
+                    
         }
         
 
@@ -169,5 +174,7 @@ public class MainScene implements ControllableScene {
         btn.setMaxWidth(Double.MAX_VALUE);
         return btn;
     }
-
+    /*private Button agregarAlbum(){
+        
+    }*/
 }

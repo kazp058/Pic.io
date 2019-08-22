@@ -17,6 +17,8 @@ import javafx.scene.text.Font;
 import toolkit.Serialize;
 
 import java.util.ArrayList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
 
 /**
  *
@@ -53,19 +55,18 @@ public class LoginRegisterScene implements ControllableScene{
     public void setParent(ScreensController controller) {
         this.myController = controller;
     }
-    private Button iniciarSesion(String username, String password){
-        Button iniciar=new Button("Iniciar Sesión");
-        iniciar.setFont(font); iniciar.setAlignment(Pos.CENTER);
-        iniciar.setOnAction((ActionEvent e) ->{
-            
-            User user=new User(username,password);
-            ArrayList<Object> resultado=new Serialize().iniciarSesion(user);
-            if ((boolean) resultado.get(0)) {
-                User usuario = (User) resultado.get(1);
-                this.myController.setCurrentUser(usuario);
+    private Button crearUser(TextField username,TextField password,TextField name,TextField age){
+        Button crear=new Button("Crear Usuario");
+        crear.setOnAction((e)->{
+            if (username.getText().equals("") || password.getText().equals("")||
+                    name.getText().equals("")||age.getText().equals("")){
+                Alert alerta=new Alert(Alert.AlertType.ERROR);
+                alerta.setHeaderText("Por favor, llene todo los espacios");
+                alerta.setTitle("Error");
+            } else {
+                
             }
-
         });
-        return iniciar;
+        return crear;
     }
 }
