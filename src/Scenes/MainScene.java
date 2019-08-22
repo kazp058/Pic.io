@@ -36,16 +36,18 @@ public class MainScene implements ControllableScene {
     private Button createSlideShow;
     private Button createAlbum;
 
-    private Pane main;
+    private VBox main;
+    private BorderPane root;
 
     public MainScene() {
         main = imagePane();
+        root = new BorderPane();
     }
 
     @Override
     public Scene getScene() {
 
-        BorderPane root = new BorderPane();
+        root = new BorderPane();
 
         root.setCenter(main);
         root.setTop(getTopPane());
@@ -93,15 +95,21 @@ public class MainScene implements ControllableScene {
         createAlbum.setStyle("-fx-font-size:25");
 
         checkUsers.setOnAction((e) -> {
+            System.out.println("AAAAAA");
             main = usersPane();
+            root.setCenter(main);
             myController.setScene(MainClass.mainName);
         });
         myGallery.setOnAction((e) -> {
+            System.out.println("EEEEE");
             main = imagePane();
+            root.setCenter(main);
             myController.setScene(MainClass.mainName);
         });
         createSlideShow.setOnAction((e) -> {
+            System.out.println("OIIIIIII");
             main = slideShowPane();
+            root.setCenter(main);
             myController.setScene(MainClass.mainName);
         });
         
@@ -121,26 +129,27 @@ public class MainScene implements ControllableScene {
         return pane;
     }
 
-    private Pane usersPane() {
-        Pane pane = new VBox();
+    private VBox usersPane() {
+        VBox pane = new VBox();
 
         pane.getChildren().add(new Label("Usuariooos"));
 
         return pane;
     }
 
-    private Pane imagePane() {
-        Pane pane = new VBox();
+    private VBox imagePane() {
+        VBox pane = new VBox();
 
         pane.getChildren().add(new Label("FOOOOOOTOOOOS"));
-
+        
         return pane;
     }
 
-    private Pane slideShowPane() {
-        Pane pane = new VBox();
+    private VBox slideShowPane() {
+        VBox pane = new VBox();
 
         pane.getChildren().add(new Label("SLIDEEEEE"));
+        
 
         return pane;
     }

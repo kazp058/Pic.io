@@ -27,7 +27,8 @@ public class MainClass extends Application {
     Background background;
     public static String loginName = "login";
     public static String mainName = "main";
-
+    public Stage stage;
+    
     public MainClass() throws FileNotFoundException {
         this.bits = Font.loadFont(new FileInputStream("src/Data/fonts/upheavtt.ttf"),20);
         File dir= new File("src/Data/gifs");
@@ -40,9 +41,12 @@ public class MainClass extends Application {
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 new BackgroundSize(1.0, 1.0, true, true, false, false));
         this.background=new Background(bgi);
+        
     }
     
     public void start(Stage primaryStage){
+        
+        this.stage = primaryStage;
         
         ScreensController myController = new ScreensController();
 
