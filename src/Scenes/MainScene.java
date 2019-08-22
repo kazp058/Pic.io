@@ -199,8 +199,10 @@ public class MainScene implements ControllableScene {
     private Scene getUploadScene() {
 
         VBox main = new VBox();
-        HBox data = new HBox();
-
+        HBox data = new HBox(); 
+        
+        Label desc = new Label("Descripcion");
+        TextField descpI = new TextField();
         Label name = new Label("Nombre de la foto");
         name.setStyle("-fx-font-size:25");
         TextField nameI = new TextField();
@@ -220,7 +222,7 @@ public class MainScene implements ControllableScene {
         });
 
         data.getChildren().addAll(name, nameI);
-        main.getChildren().addAll(data, choseFiles);
+        main.getChildren().addAll(data, desc, descpI,choseFiles);
         
         main.setAlignment(Pos.TOP_CENTER);
         data.setAlignment(Pos.CENTER);
