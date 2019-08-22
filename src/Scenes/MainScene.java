@@ -12,6 +12,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -37,7 +38,7 @@ public class MainScene implements ControllableScene {
     private Button createSlideShow;
     private Button createAlbum;
 
-    private VBox main = usersPane();
+    private Pane main = usersPane();
     private BorderPane root;
 
     public MainScene() {
@@ -98,8 +99,7 @@ public class MainScene implements ControllableScene {
         });
 
         myGallery.setOnAction((e) -> {
-            main = imagePane();
-            root.setCenter(main);
+            root.setCenter(imagePane());
         });
 
         createSlideShow.setOnAction((e) -> {
@@ -122,7 +122,7 @@ public class MainScene implements ControllableScene {
         return pane;
     }
 
-    private VBox usersPane() {
+    private Pane usersPane() {
         VBox pane = new VBox();
 
         pane.getChildren().add(new Label("Usuariooos"));
@@ -130,12 +130,13 @@ public class MainScene implements ControllableScene {
         return pane;
     }
 
-    private VBox imagePane() {
+    private ScrollPane imagePane() {
         VBox pane = new VBox();
+        ScrollPane m = new ScrollPane();
         
-        pane.setPadding(new Insets(5,15,0,15));
+        pane.setPadding(new Insets(5, 15, 0, 15));
         Button addAlbum = new Button("Agregar Album");
-        
+
         addAlbum.setStyle("-fx-font-size:25");
         addAlbum.setMaxWidth(Double.MAX_VALUE);
 
@@ -145,21 +146,19 @@ public class MainScene implements ControllableScene {
             for (Album album : myController.getCurrentUser().getAlbumes()) {
                 pane.getChildren().add(generateAlbum(album));
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("AHAHAHAH");
         }
-        
+        m.setContent(pane);
+        m.setPrefSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
-            return pane;
-        }
+        return m;
+    }
 
-    
-
-    private VBox slideShowPane() {
-        VBox pane = new VBox();
+    private Pane slideShowPane() {
+        Pane pane = new VBox();
 
         pane.getChildren().add(new Label("SLIDEEEEE"));
-        pane.setAlignment(Pos.CENTER);
 
         return pane;
     }
