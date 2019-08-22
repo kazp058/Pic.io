@@ -37,9 +37,21 @@ public class ScreensController {
         this.size = size;
     }
     
+    public void removeScene(String name){
+        screens.remove(name);
+    }
+    
     public Integer[] getSize(){
         return this.size;
     }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
     
     public void setCurrentUser(User user) { this.currentUser=user; }
+
+    public void setCurrentScene(Scene scene){
+        this.currentScene = scene;
+    }
 }

@@ -47,9 +47,9 @@ public class Serialize {
        ArrayList<Object> resultado=new ArrayList<>();
        ArrayList importacion=this.importar();
        HashMap<String,User> usuarios=(HashMap<String,User>) importacion.get(2);
-       if (usuarios.containsKey(user.Getusername())){
+       if (usuarios.containsKey(user.getUsername())){
            resultado.add(true);
-           resultado.add(usuarios.get(user.Getusername()));
+           resultado.add(usuarios.get(user.getUsername()));
        } else {
            resultado.add(false);
        }
@@ -61,8 +61,8 @@ public class Serialize {
         
         try(FileOutputStream fileout= new FileOutputStream("src/Data/user.ser");
                 ObjectOutputStream out= new ObjectOutputStream(fileout)){
-            if (usuarios.containsKey(user.Getusername())){
-                usuarios.put(user.Getusername(), user);
+            if (usuarios.containsKey(user.getUsername())){
+                usuarios.put(user.getUsername(), user);
                 out.writeObject(usuarios);
                 return true;
             } else{
@@ -85,13 +85,13 @@ public class Serialize {
         
        try(FileOutputStream fileout= new FileOutputStream("src/Data/user.ser");
                 ObjectOutputStream out= new ObjectOutputStream(fileout)){
-            if (usuarios.containsKey(user.Getusername())){
+            if (usuarios.containsKey(user.getUsername())){
                 out.writeObject(usuarios);
                 resultado.add(false);
                 resultado.add("Un usuario con ese username ya existe.");
                 return resultado;
             } else{
-                usuarios.put(user.Getusername(), user);
+                usuarios.put(user.getUsername(), user);
                 out.writeObject(usuarios);
                 resultado.add(true);
                 resultado.add("Usuario creado exitosamente");

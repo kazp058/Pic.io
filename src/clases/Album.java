@@ -17,6 +17,7 @@ public class Album implements Serializable{
     String descripcion;
     String username;
     public ArrayList<Pic> pics;
+    
     public Album(){
         this("","","");
     }

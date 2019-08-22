@@ -30,16 +30,16 @@ public class User implements Serializable{
     public User(String u,String p,String n,String a, ArrayList<Album> al){
         this.username=u;this.password=p;this.name=n;this.age=a; this.albumes=al;
     }
-    public void Setpassword(String x){
+    public void setPassword(String x){
         this.password=x;
     }
-    public void Setname(String x){
+    public void setName(String x){
         this.name=x;
     }
-    public void Setage(String x){
+    public void setAge(String x){
         this.age=x;
     }
-    public boolean AddAlbum(Album x){
+    public boolean addAlbum(Album x){
         ArrayList<String> lista=new ArrayList<>();
         for (Album i:this.albumes){
             lista.add(i.name);
@@ -49,29 +49,29 @@ public class User implements Serializable{
         }
         return lista.contains(x.name);
     }
-    public void RemoveAlmub(String x){
+    public void removeAlbum(String x){
         for (Album i:this.albumes){
             if (i.name.equals(x)){
                 this.albumes.remove(i);
             }
         }
     }
-    public String Getusername(){
+    public String getUsername(){
         return this.username;
     }
-    public String Getpassword(){
+    public String getPassword(){
         return this.password;
     }
-    public String Getname(){
+    public String getName(){
         return this.name;
     }
-    public String Getage(){
+    public String getAge(){
         return this.age;
     }
-    public ArrayList<Album> GetAlbumes(){
+    public ArrayList<Album> getAlbumes(){
         return this.albumes;
     }
-    public Album GetAlbum(String x){
+    public Album getAlbum(String x){
         for (Album i: this.albumes){
             if (i.name.equals(x)){
                 return i;
