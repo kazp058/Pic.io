@@ -199,12 +199,14 @@ public class MainScene implements ControllableScene {
     private Scene getUploadScene() {
 
         VBox main = new VBox();
+        VBox descp = new VBox();
         HBox data = new HBox(); 
         
         Label desc = new Label("Descripcion");
+        desc.setStyle("-fx-font-size:15");
         TextField descpI = new TextField();
         Label name = new Label("Nombre de la foto");
-        name.setStyle("-fx-font-size:25");
+        name.setStyle("-fx-font-size:15");
         TextField nameI = new TextField();
         Button choseFiles = new Button("Seleccionar imagen");
 
@@ -220,16 +222,20 @@ public class MainScene implements ControllableScene {
             File image = fc.showOpenDialog(myController.getStage());
             
         });
+        
+        descp.getChildren().addAll(desc, descpI);
+        descp.setAlignment(Pos.CENTER);
+        descp.setSpacing(10);
 
         data.getChildren().addAll(name, nameI);
-        main.getChildren().addAll(data, desc, descpI,choseFiles);
+        main.getChildren().addAll(data, descp ,choseFiles);
         
         main.setAlignment(Pos.TOP_CENTER);
         data.setAlignment(Pos.CENTER);
         data.setSpacing(20);
-        main.setSpacing(10);
+        main.setSpacing(25);
         
-        main.setPadding(new Insets(10,0,0,0));
+        main.setPadding(new Insets(10,15,0,15));
 
         name.setAlignment(Pos.CENTER_RIGHT);
         nameI.setAlignment(Pos.CENTER);
