@@ -2,6 +2,16 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group/>
+=======
+        <group>
+            <file>file:/C:/Users/KEVIN%20Z/Documents/NetBeansProjects/proyecto/src/Scenes/MainScene.java</file>
+            <file>file:/C:/Users/KEVIN%20Z/Documents/NetBeansProjects/proyecto/src/clases/BPic.java</file>
+            <file>file:/C:/Users/KEVIN%20Z/Documents/NetBeansProjects/proyecto/src/clases/Pic.java</file>
+            <file>file:/C:/Users/KEVIN%20Z/Documents/NetBeansProjects/proyecto/src/Main/MainClass.java</file>
+            <file>file:/C:/Users/KEVIN%20Z/Documents/NetBeansProjects/proyecto/src/Scenes/ScreensController.java</file>
+        </group>
+>>>>>>> 72f2e1be2d5613c0a0a88742eb727531e0dfca33
     </open-files>
 </project-private>

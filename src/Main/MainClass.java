@@ -48,7 +48,7 @@ public class MainClass extends Application {
         
         this.stage = primaryStage;
         
-        ScreensController myController = new ScreensController();
+        ScreensController myController = new ScreensController(stage);
 
         ControllableScene mainScene = new MainScene();
         ControllableScene loginScene = new LoginScene(bits,background);
