@@ -41,7 +41,6 @@ public class LoginRegisterScene implements ControllableScene{
 
         HBox hbox = new HBox();
         Label label = new Label("EEEEEEHHHH");
-        Button btn = new Button("Puto el que lo lea");
         
         hbox.setAlignment(Pos.CENTER);
 
@@ -64,7 +63,17 @@ public class LoginRegisterScene implements ControllableScene{
                 alerta.setHeaderText("Por favor, llene todo los espacios");
                 alerta.setTitle("Error");
             } else {
-                
+                Serialize tools=new Serialize();
+                User usuario=new User(username.getText(),password.getText(),name.getText(),age.getText());
+                ArrayList resultado= tools.crearUsuario(usuario);
+                if ((boolean)resultado.get(0)){
+                    Alert exito= new Alert(Alert.AlertType.CONFIRMATION);
+                    exito.setHeaderText((String)resultado.get(1));
+                } else{
+                    Alert error= new Alert(Alert.AlertType.ERROR);
+                    error.setHeaderText((String)resultado.get(1));
+                    username.setText(""); password.setText(""); name.setText(""); age.setText("");
+                }
             }
         });
         return crear;
