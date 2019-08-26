@@ -19,7 +19,7 @@ public class Serialize {
     public ArrayList<Object> importar(){
         /* Este método va a retornarnar un ArrayLis: el primer valor será un 
         bool que muestra si se pudo completar la acción, el segundo es el
-        mensaje de error si es que hay uno y el tercero unhashmap de todos los
+        mensaje de error si es que hay uno y el tercero un hashmap de todos los
         usuarios*/
         ArrayList<Object> resultado = new ArrayList<>();
         Boolean valor=false;
