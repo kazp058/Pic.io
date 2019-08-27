@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -183,7 +184,7 @@ public class MainScene implements ControllableScene {
         container.setPrefSize(m.getPrefWidth(), m.getPrefHeight());
         container.setPadding(new Insets(10, 15, 0, 15));
 
-        Button addAlbum = new Button("Añadir imagen");
+        Button addAlbum = new Button("Añadir Imagen");
 
         addAlbum.setStyle("-fx-font-size:25");
         addAlbum.setMaxWidth(Double.MAX_VALUE);
@@ -191,7 +192,14 @@ public class MainScene implements ControllableScene {
         container.getChildren().add(addAlbum);
 
         addAlbum.setOnAction((e) -> {
-            this.uploadStage.show();
+            if (myController.getCurrentUser().getAlbumes().size() != 0) {
+                this.uploadStage.show();
+            } else {
+                Alert alerta = new Alert(Alert.AlertType.ERROR);
+                alerta.setContentText("Crea un album antes de crear una imagen!");
+                alerta.setHeaderText("Error al añadir imagen");
+                alerta.show();
+            }
         });
 
         try {
