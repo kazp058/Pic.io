@@ -5,6 +5,9 @@
 <<<<<<< HEAD
         <group/>
 =======
+<<<<<<< HEAD
+        <group/>
+=======
         <group>
             <file>file:/C:/Users/KEVIN%20Z/Documents/NetBeansProjects/proyecto/src/Scenes/MainScene.java</file>
             <file>file:/C:/Users/KEVIN%20Z/Documents/NetBeansProjects/proyecto/src/clases/BPic.java</file>
@@ -13,5 +16,6 @@
             <file>file:/C:/Users/KEVIN%20Z/Documents/NetBeansProjects/proyecto/src/Scenes/ScreensController.java</file>
         </group>
 >>>>>>> 72f2e1be2d5613c0a0a88742eb727531e0dfca33
+>>>>>>> cc0c9e5731bc8974187dd71d99fe15b808b15827
     </open-files>
 </project-private>
