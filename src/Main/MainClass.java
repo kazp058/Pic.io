@@ -27,6 +27,7 @@ public class MainClass extends Application {
     Background background;
     public static String loginName = "login";
     public static String mainName = "main";
+    public static String registerName= "register";
     public Stage stage;
     
     public MainClass() throws FileNotFoundException {
@@ -48,16 +49,18 @@ public class MainClass extends Application {
         
         this.stage = primaryStage;
         
-        ScreensController myController = new ScreensController(stage);
+        ScreensController myController = new ScreensController();
 
         ControllableScene mainScene = new MainScene();
         ControllableScene loginScene = new LoginScene(bits,background);
+        ControllableScene registerScene= new LoginRegisterScene(bits,background);
 
         myController.setSize(new Integer[]{1280,720});
         
-        myController.addScene(this.loginName, loginScene);
-        myController.addScene(this.mainName, mainScene);
-        myController.setScene(mainName);
+        myController.addScene(loginName, loginScene);
+        myController.addScene(mainName, mainScene);
+        myController.addScene(registerName,registerScene);
+        myController.setScene(registerName);
                 
         Scene scene = myController.getScene();
         

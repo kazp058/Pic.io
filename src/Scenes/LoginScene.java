@@ -5,6 +5,7 @@
  */
 package Scenes;
 
+import Main.MainClass;
 import clases.User;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
@@ -90,6 +91,9 @@ public class LoginScene implements ControllableScene{
     private Button crearUsuario(){
         Button crear=new Button("Crear Usuario");
         crear.setFont(font); crear.setAlignment(Pos.CENTER);
+        crear.setOnAction((e)->{
+            myController.setScene(MainClass.registerName);
+        });
         return crear;
     }
     private Text textLabel(String mensaje){
@@ -106,7 +110,7 @@ public class LoginScene implements ControllableScene{
     }
     private PasswordField passwordBox(){
         PasswordField texto=new PasswordField();
-        texto.setAlignment(Pos.CENTER_LEFT); texto.setFont(font);
+        texto.setAlignment(Pos.CENTER_LEFT);
         texto.setMinSize(150,30);
         return texto;
     }
