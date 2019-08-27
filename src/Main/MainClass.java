@@ -49,7 +49,7 @@ public class MainClass extends Application {
         
         this.stage = primaryStage;
         
-        ScreensController myController = new ScreensController();
+        ScreensController myController = new ScreensController(primaryStage);
 
         ControllableScene mainScene = new MainScene();
         ControllableScene loginScene = new LoginScene(bits,background);
@@ -60,7 +60,7 @@ public class MainClass extends Application {
         myController.addScene(loginName, loginScene);
         myController.addScene(mainName, mainScene);
         myController.addScene(registerName,registerScene);
-        myController.setScene(registerName);
+        myController.setScene(mainName);
                 
         Scene scene = myController.getScene();
         

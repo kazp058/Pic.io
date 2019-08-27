@@ -8,9 +8,7 @@ package Scenes;
 import Main.MainClass;
 import clases.Album;
 import clases.BAlbum;
-<<<<<<< HEAD
 import java.util.Arrays;
-=======
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,7 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
->>>>>>> da6e650f656576e6aa4b97fe1bb130d530b78623
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -26,11 +23,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-<<<<<<< HEAD
-=======
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
->>>>>>> da6e650f656576e6aa4b97fe1bb130d530b78623
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -45,6 +39,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -61,11 +58,8 @@ public class MainScene implements ControllableScene {
 
     private VBox main = usersPane();
     private BorderPane root;
-<<<<<<< HEAD
-=======
 
     private Stage uploadStage;
->>>>>>> da6e650f656576e6aa4b97fe1bb130d530b78623
 
     private Image previewImage;
 
@@ -143,20 +137,17 @@ public class MainScene implements ControllableScene {
         checkUsers.setOnAction((e) -> {
             main = usersPane();
             root.setCenter(main);
+            myController.setScene(MainClass.loginName);
         });
 
-<<<<<<< HEAD
-=======
         createAlbum.setOnAction((e) -> {
 
             uploadStage.show();
 
         });
 
->>>>>>> da6e650f656576e6aa4b97fe1bb130d530b78623
         myGallery.setOnAction((e) -> {
-            main = imagePane();
-            root.setCenter(main);
+            root.setCenter(imagePane());
         });
 
         createSlideShow.setOnAction((e) -> {
@@ -187,14 +178,6 @@ public class MainScene implements ControllableScene {
         return pane;
     }
 
-<<<<<<< HEAD
-    private VBox imagePane() {
-        VBox pane = new VBox();
-        
-        pane.setPadding(new Insets(5,15,0,15));
-        Button addAlbum = new Button("Agregar Album");
-        
-=======
     private ScrollPane imagePane() {
         FlowPane container = new FlowPane();
         ScrollPane m = new ScrollPane();
@@ -205,7 +188,6 @@ public class MainScene implements ControllableScene {
 
         Button addAlbum = new Button("Añadir Imagen");
 
->>>>>>> da6e650f656576e6aa4b97fe1bb130d530b78623
         addAlbum.setStyle("-fx-font-size:25");
         addAlbum.setMaxWidth(Double.MAX_VALUE);
 
@@ -224,40 +206,21 @@ public class MainScene implements ControllableScene {
 
         try {
             for (Album album : myController.getCurrentUser().getAlbumes()) {
-<<<<<<< HEAD
-                BAlbum Albumview=new BAlbum(album,album.Getname());
-                pane.getChildren().add(Albumview);
-            }
-        } catch (NullPointerException e){
-            Label label= new Label("Qué triste, no tienes albumes. Pero tranquilo, ¡Agrega uno!");
-            pane.getChildren().add(label);
-                    
-        }
-        
-=======
                 BAlbum Albumview = new BAlbum(album, album.Getname());
-                container.getChildren().add(Albumview);
             }
         } catch (NullPointerException e) {
-            Label label = new Label("Qué triste, no tienes albumes. Pero tranquilo, ¡Agrega una imagen!");
-            container.getChildren().add(label);
->>>>>>> da6e650f656576e6aa4b97fe1bb130d530b78623
-
-            return pane;
+            Label label = new Label("Qué triste, no tienes albumes. Pero tranquilo, ¡Agrega uno!");
         }
-<<<<<<< HEAD
-=======
 
         container.setAlignment(Pos.TOP_CENTER);
 
         m.setHbarPolicy(ScrollBarPolicy.NEVER);
         m.setVbarPolicy(ScrollBarPolicy.ALWAYS);
-
         m.setContent(container);
         m.setPrefSize(Double.MAX_VALUE, Double.MAX_VALUE);
->>>>>>> da6e650f656576e6aa4b97fe1bb130d530b78623
 
-    
+        return m;
+    }
 
     private VBox slideShowPane() {
         VBox pane = new VBox();
@@ -273,8 +236,6 @@ public class MainScene implements ControllableScene {
         btn.setMaxWidth(Double.MAX_VALUE);
         return btn;
     }
-<<<<<<< HEAD
-=======
 
     private Scene getUploadScene() {
 
@@ -354,7 +315,6 @@ public class MainScene implements ControllableScene {
         Scene scene = new Scene(divider, 900, 600);
         return scene;
     }
->>>>>>> da6e650f656576e6aa4b97fe1bb130d530b78623
     /*private Button agregarAlbum(){
         
     }*/

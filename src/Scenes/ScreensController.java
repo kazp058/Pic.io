@@ -5,9 +5,11 @@
  */
 package Scenes;
 
+import Main.MainClass;
 import clases.User;
 import java.util.HashMap;
 import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 /**
  *
@@ -19,6 +21,15 @@ public class ScreensController {
     private Scene currentScene;
     private User currentUser;
     private Integer[] size;
+    private Stage stage;
+
+    public ScreensController(Stage stage) {
+        this.stage = stage;
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
     
     public void addScene(String name, ControllableScene scene){
         scene.setParent(this);
@@ -27,6 +38,7 @@ public class ScreensController {
 
     public void setScene(String name){
         this.currentScene = screens.get(name).getScene();
+        stage.setScene(currentScene);
     }
     
     public Scene getScene(){
