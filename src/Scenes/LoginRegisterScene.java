@@ -115,6 +115,7 @@ public class LoginRegisterScene implements ControllableScene {
                 if ((boolean) resultado.get(0)) {
                     Alert exito = new Alert(Alert.AlertType.CONFIRMATION);
                     exito.setHeaderText((String) resultado.get(1));
+                    exito.show();
                     myController.setScene(MainClass.loginName);
                 } else {
                     Alert error = new Alert(Alert.AlertType.ERROR);

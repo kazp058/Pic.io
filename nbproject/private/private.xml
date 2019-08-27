@@ -3,14 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/KEVIN%20Z/Documents/NetBeansProjects/proyecto/src/Scenes/LoginRegisterScene.java</file>
-            <file>file:/C:/Users/KEVIN%20Z/Documents/NetBeansProjects/proyecto/src/toolkit/Serialize.java</file>
             <file>file:/C:/Users/KEVIN%20Z/Documents/NetBeansProjects/proyecto/src/Scenes/MainScene.java</file>
-            <file>file:/C:/Users/KEVIN%20Z/Documents/NetBeansProjects/proyecto/src/clases/BAlbum.java</file>
-            <file>file:/C:/Users/KEVIN%20Z/Documents/NetBeansProjects/proyecto/src/clases/BPic.java</file>
-            <file>file:/C:/Users/KEVIN%20Z/Documents/NetBeansProjects/proyecto/src/Main/MainClass.java</file>
-            <file>file:/C:/Users/KEVIN%20Z/Documents/NetBeansProjects/proyecto/src/Scenes/ScreensController.java</file>
-            <file>file:/C:/Users/KEVIN%20Z/Documents/NetBeansProjects/proyecto/src/Scenes/LoginScene.java</file>
+            <file>file:/C:/Users/KEVIN%20Z/Documents/NetBeansProjects/proyecto/src/clases/Pic.java</file>
+            <file>file:/C:/Users/KEVIN%20Z/Documents/NetBeansProjects/proyecto/src/clases/Tag.java</file>
+            <file>file:/C:/Users/KEVIN%20Z/Documents/NetBeansProjects/proyecto/src/clases/Album.java</file>
         </group>
     </open-files>
 </project-private>

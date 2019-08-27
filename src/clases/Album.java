@@ -7,39 +7,54 @@ package clases;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import javafx.scene.image.Image;
 
 /**
  *
  * @author Franklin
  */
-public class Album implements Serializable{
+public class Album implements Serializable {
+
     String name;
     String descripcion;
     String username;
     public ArrayList<Pic> pics;
-    
-    public Album(){
-        this("","","");
+
+    public Album() {
+        this("", "", "");
     }
-    public Album(String n,String d,String u){
-        this.name=n;this.descripcion=d;this.username=u;
+
+    public Album(String n, String d, String u) {
+        this.name = n;
+        this.descripcion = d;
+        this.username = u;
     }
-    public void Setname(String x){
-        this.name=x;
+
+    public void setName(String x) {
+        this.name = x;
     }
-    public void Setdescripcion(String x){
-        this.descripcion=x;
+
+    public void setDescripcion(String x) {
+        this.descripcion = x;
     }
-    public void Setusername(String x){
-        this.username=x;
+
+    public void setUsername(String x) {
+        this.username = x;
     }
-    public String Getname(){
+
+    public String getName() {
         return this.name;
     }
-    public String Getdescripcion(){
+    
+    public void addImage(Pic pic){
+        pics.add(pic);
+    }
+
+    public String getDescripcion() {
         return this.descripcion;
     }
-    public String Getusername(){
+
+    public String getUsername() {
         return this.username;
     }
 }

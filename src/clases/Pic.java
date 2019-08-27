@@ -9,13 +9,15 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javafx.scene.image.Image;
 
 /**
  *
  * @author Franklin
  */
-public class Pic implements Serializable{
+public class Pic implements Serializable {
+
     String descripcion;
     String lugar;
     String fecha;
@@ -24,85 +26,87 @@ public class Pic implements Serializable{
     ArrayList<String> hashtags;
     ArrayList<Comment> comments;
     Cam cam;
-    ArrayList<String> etiquetados;
-    public Pic(){
-        this.descripcion=""; this.lugar=""; this.fecha=""; this.reaccion="";
+    HashMap<String, Tag> tags;
+
+    public Pic() {
+        this.descripcion = "";
+        this.lugar = "";
+        this.fecha = "";
+        this.reaccion = "";
     }
-    public Pic(String fl) throws FileNotFoundException{
-        FileInputStream in= new FileInputStream(fl);
-        Image imagen= new Image(in);
-        this.image=imagen;
+
+    public Pic(String fl) throws FileNotFoundException {
+        FileInputStream in = new FileInputStream(fl);
+        Image imagen = new Image(in);
+        this.image = imagen;
     }
-    public Pic(String d,String l,String f,String r,String fl, Cam c) throws FileNotFoundException{
-        this.descripcion=d; this.lugar=l; this.fecha=f; this.reaccion=r;
-        this.cam=c;
-        FileInputStream in= new FileInputStream(fl);
-        Image imagen= new Image(in);
-        this.image=imagen;
+
+    public Pic(String d, String l, String f, String r, String fl, Cam c) throws FileNotFoundException {
+        this.descripcion = d;
+        this.lugar = l;
+        this.fecha = f;
+        this.reaccion = r;
+        this.cam = c;
+        FileInputStream in = new FileInputStream(fl);
+        Image imagen = new Image(in);
+        this.image = imagen;
     }
-    public String Getdescripcion(){
+
+    public String getDescripcion() {
         return this.descripcion;
     }
-    public String Getlugar(){
+
+    public String getLugar() {
         return this.lugar;
     }
-    public String Getfecha(){
+
+    public String getFecha() {
         return this.fecha;
     }
-    public String Getreaccion(){
+
+    public String getReaccion() {
         return this.reaccion;
     }
-    public Image GetImage(){
+
+    public Image getImage() {
         return this.image;
     }
-    public ArrayList<String> Getetiquetados(){
-        return this.etiquetados;
+
+    public void setDescripcion(String x) {
+        this.descripcion = x;
     }
-    public void Setdescripcion(String x){
-        this.descripcion=x;
+
+    public void setLugar(String x) {
+        this.lugar = x;
     }
-    public void Setdlugar(String x){
-        this.lugar=x;
+
+    public void setFecha(String x) {
+        this.fecha = x;
     }
-    public void Setfecha(String x){
-        this.fecha=x;
+
+    public void setReaccion(String x) {
+        this.reaccion = x;
     }
-    public void Setreaccion(String x){
-        this.reaccion=x;
+
+    public void setImage(String x) throws FileNotFoundException {
+        FileInputStream in = new FileInputStream(x);
+        Image imagen = new Image(in);
+        this.image = imagen;
     }
-    public void SetImage(String x) throws FileNotFoundException{
-        FileInputStream in= new FileInputStream(x);
-        Image imagen= new Image(in);
-        this.image=imagen;
-    }
-    public ArrayList addetiquetado(String x){
-        /* Esta función devuelve una lista en el que el primer objeto es un bool
-        que especifica si se pudo hacer la acción o no, en el caso de que no, el 
-        segundo objeto es un string que explica la causa.*/
-        boolean valor; String causa="";  
-        if (this.etiquetados.contains(x)){
-            valor=false; causa="Esta persona ya se encuentra etiquetada";
-        } else {
-            valor=true;
-            this.etiquetados.add(x);
-        }
-        ArrayList lista=new ArrayList();
-        lista.add(valor); lista.add(causa);
-        return lista;
-    }
-    public void removeetiquetado(String x){
-        this.etiquetados.remove(x);
-    }
-    public void addcomment(Comment x){
+
+    public void addComment(Comment x) {
         this.comments.add(x);
     }
-    public void removecomment(Comment x){
+
+    public void removeComment(Comment x) {
         this.comments.remove(x);
     }
-    public void addhashtag(String x){
+
+    public void addHashtag(String x) {
         this.hashtags.add(x);
     }
-    public void removehashtag(String x){
+
+    public void removeHashtag(String x) {
         this.hashtags.remove(x);
     }
 }

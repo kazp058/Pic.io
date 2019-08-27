@@ -25,6 +25,7 @@ public class ScreensController {
 
     public ScreensController(Stage stage) {
         this.stage = stage;
+        currentUser = new User();
     }
 
     public Stage getStage() {

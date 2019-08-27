@@ -60,7 +60,7 @@ public class MainClass extends Application {
         myController.addScene(loginName, loginScene);
         myController.addScene(mainName, mainScene);
         myController.addScene(registerName,registerScene);
-        myController.setScene(mainName);
+        myController.setScene(loginName);
                 
         Scene scene = myController.getScene();
         

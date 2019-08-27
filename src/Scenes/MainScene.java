@@ -8,20 +8,25 @@ package Scenes;
 import Main.MainClass;
 import clases.Album;
 import clases.BAlbum;
+import clases.Pic;
+import clases.Tag;
 import java.util.Arrays;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
@@ -36,6 +41,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -56,22 +62,33 @@ public class MainScene implements ControllableScene {
     private Button createSlideShow;
     private Button createAlbum;
 
+    private double x;
+    private double y;
+    private HashMap<String, Tag> tags;
+
     private VBox main = usersPane();
     private BorderPane root;
 
     private Stage uploadStage;
+    private Stage cAStage;
 
     private Image previewImage;
 
     public MainScene() {
         root = new BorderPane();
+        tags = new HashMap<String, Tag>();
 
         uploadStage = new Stage();
         uploadStage.setTitle("Añadir imagen");
         uploadStage.toFront();
-
         uploadStage.initStyle(StageStyle.UTILITY);
         uploadStage.setAlwaysOnTop(true);
+
+        cAStage = new Stage();
+        cAStage.setTitle("Crear Album");
+        cAStage.toFront();
+        cAStage.initStyle(StageStyle.UTILITY);
+        cAStage.setAlwaysOnTop(true);
 
         FileInputStream input = null;
         try {
@@ -81,8 +98,6 @@ public class MainScene implements ControllableScene {
             Logger.getLogger(MainScene.class.getName()).log(Level.SEVERE, null, ex);
         }
         previewImage = new Image(input);
-
-        uploadStage.setScene(getUploadScene());
 
     }
 
@@ -108,8 +123,10 @@ public class MainScene implements ControllableScene {
 
         Button finder = new Button("Buscar");
         TextField searchField = new TextField();
+        ComboBox search = new ComboBox();
+        search.setEditable(true);
 
-        top.getChildren().addAll(searchField, finder);
+        top.getChildren().addAll(search, finder);
 
         top.setSpacing(10);
         top.setAlignment(Pos.CENTER_LEFT);
@@ -128,22 +145,23 @@ public class MainScene implements ControllableScene {
         myGallery = new Button("Mi Galeria");
         createSlideShow = new Button("Crear SlideShow");
         createAlbum = new Button("Crear Album");
+        Button logOut = new Button("Cerrar Sesion");
 
         checkUsers.setStyle("-fx-font-size:25");
         myGallery.setStyle("-fx-font-size:25");
         createSlideShow.setStyle("-fx-font-size:25");
         createAlbum.setStyle("-fx-font-size:25");
+        logOut.setStyle("-fx-font-size:25");
 
         checkUsers.setOnAction((e) -> {
             main = usersPane();
             root.setCenter(main);
-            myController.setScene(MainClass.loginName);
         });
 
         createAlbum.setOnAction((e) -> {
+            cAStage.setScene(getCreatorScene());
 
-            uploadStage.show();
-
+            cAStage.show();
         });
 
         myGallery.setOnAction((e) -> {
@@ -155,12 +173,18 @@ public class MainScene implements ControllableScene {
             root.setCenter(main);
         });
 
+        logOut.setOnAction((e) -> {
+            myController.setScene(MainClass.loginName);
+        });
+
         checkUsers.setMaxWidth(Double.MAX_VALUE);
         myGallery.setMaxWidth(Double.MAX_VALUE);
         createSlideShow.setMaxWidth(Double.MAX_VALUE);
         createAlbum.setMaxWidth(Double.MAX_VALUE);
 
         pane.getChildren().addAll(perfImage, myGallery, createAlbum, checkUsers, createSlideShow);
+        addSpace(pane);
+        pane.getChildren().add(logOut);
 
         pane.setAlignment(Pos.CENTER);
         pane.setSpacing(10);
@@ -178,6 +202,12 @@ public class MainScene implements ControllableScene {
         return pane;
     }
 
+    private void addSpace(VBox box) {
+        Region spacer = new Region(); // spacer
+        spacer.setPrefWidth(50);
+        box.getChildren().add(spacer);
+    }
+
     private ScrollPane imagePane() {
         FlowPane container = new FlowPane();
         ScrollPane m = new ScrollPane();
@@ -186,16 +216,19 @@ public class MainScene implements ControllableScene {
         container.setPrefSize(m.getPrefWidth(), m.getPrefHeight());
         container.setPadding(new Insets(10, 15, 0, 15));
 
-        Button addAlbum = new Button("Añadir Imagen");
+        Button addImage = new Button("Añadir Imagen");
 
-        addAlbum.setStyle("-fx-font-size:25");
-        addAlbum.setMaxWidth(Double.MAX_VALUE);
+        addImage.setStyle("-fx-font-size:25");
+        addImage.setMaxWidth(Double.MAX_VALUE);
 
-        container.getChildren().add(addAlbum);
+        container.getChildren().add(addImage);
 
-        addAlbum.setOnAction((e) -> {
-            if (myController.getCurrentUser().getAlbumes().size() != 0) {
-                this.uploadStage.show();
+        addImage.setOnAction((e) -> {
+            System.out.println(myController.getCurrentUser().getAlbumes());
+            if (!myController.getCurrentUser().getAlbumes().isEmpty()) {
+                uploadStage.setScene(getUploadScene());
+
+                uploadStage.show();
             } else {
                 Alert alerta = new Alert(Alert.AlertType.ERROR);
                 alerta.setContentText("Crea un album antes de crear una imagen!");
@@ -206,7 +239,7 @@ public class MainScene implements ControllableScene {
 
         try {
             for (Album album : myController.getCurrentUser().getAlbumes()) {
-                BAlbum Albumview = new BAlbum(album, album.Getname());
+                BAlbum Albumview = new BAlbum(album, album.getName());
             }
         } catch (NullPointerException e) {
             Label label = new Label("Qué triste, no tienes albumes. Pero tranquilo, ¡Agrega uno!");
@@ -232,9 +265,81 @@ public class MainScene implements ControllableScene {
     }
 
     private Button generateAlbum(Album album) {
-        Button btn = new Button(album.Getname());
+        Button btn = new Button(album.getName());
         btn.setMaxWidth(Double.MAX_VALUE);
         return btn;
+    }
+
+    private Scene getCreatorScene() {
+
+        Button clean = new Button("Limpiar");
+        Button save = new Button("Crear");
+
+        VBox main = new VBox();
+        HBox nameBox = new HBox();
+        HBox buttonBoxes = new HBox();
+
+        buttonBoxes.getChildren().addAll(clean, save);
+
+        Label nameL = new Label("Nombre");
+        TextField nameT = new TextField();
+
+        nameBox.getChildren().addAll(nameL, nameT);
+
+        VBox descBox = new VBox();
+
+        Label descL = new Label("Descripcion");
+        TextField descT = new TextField();
+
+        descBox.getChildren().addAll(descL, descT);
+
+        main.getChildren().addAll(nameBox, descBox, buttonBoxes);
+
+        main.setSpacing(15);
+        main.setPadding(new Insets(5, 15, 5, 15));
+        main.setAlignment(Pos.CENTER);
+
+        nameBox.setSpacing(15);
+        nameBox.setAlignment(Pos.CENTER);
+
+        buttonBoxes.setSpacing(15);
+        buttonBoxes.setAlignment(Pos.CENTER);
+
+        descBox.setSpacing(15);
+        descBox.setAlignment(Pos.CENTER);
+
+        clean.setOnAction((e) -> {
+            nameT.setText("");
+            descT.setText("");
+        });
+
+        save.setOnAction((e) -> {
+
+            cAStage.setAlwaysOnTop(false);
+            boolean val = myController.getCurrentUser().addAlbum(new Album(nameT.getText(), descT.getText(), myController.getCurrentUser().getUsername()));
+            System.out.println(val);
+            if (val) {
+                uploadStage.setAlwaysOnTop(false);
+                Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+                alerta.setContentText("La informacion ha sido ingresada correctamente");
+                alerta.setHeaderText("Album creado con exito");
+                alerta.show();
+
+            } else {
+                uploadStage.setAlwaysOnTop(false);
+                Alert alerta = new Alert(Alert.AlertType.ERROR);
+                alerta.setContentText("Elija otro nombre para su album");
+                alerta.setHeaderText("El Album ya existe");
+                alerta.show();
+
+            }
+
+            nameT.setText("");
+            descT.setText("");
+
+        });
+
+        return new Scene(main, 400, 200);
     }
 
     private Scene getUploadScene() {
@@ -243,9 +348,24 @@ public class MainScene implements ControllableScene {
         VBox descp = new VBox();
         HBox data = new HBox();
         HBox divider = new HBox();
+        HBox comboPane = new HBox();
+        HBox mainButtons = new HBox();
+        HBox tagger = new HBox();
+        Group groupImage = new Group();
+
+        Button clear = new Button("Limpiar");
+        Button save = new Button("Guardar");
+        mainButtons.getChildren().addAll(clear, save);
+        mainButtons.setSpacing(15);
+        mainButtons.setAlignment(Pos.CENTER);
 
         ScrollPane imagePane = new ScrollPane();
         imagePane.setPrefSize(600, 600);
+
+        Label tagL = new Label("Nombre");
+        TextField tagF = new TextField();
+        Button startTag = new Button("Tag");
+        tagger.getChildren().addAll(tagL, tagF, startTag);
 
         Label desc = new Label("Descripcion");
         desc.setStyle("-fx-font-size:15");
@@ -255,11 +375,16 @@ public class MainScene implements ControllableScene {
         name.setStyle("-fx-font-size:15");
         TextField nameI = new TextField();
 
-        Button choseFiles = new Button("Seleccionar imagen");
+        ComboBox albumnes = new ComboBox();
 
-        Label cALabel = new Label("Crear Album?");
-        cALabel.setStyle("-fx-font-size:15");
-        CheckBox cAButton = new CheckBox();
+        for (Album album : myController.getCurrentUser().getAlbumes()) {
+            albumnes.getItems().add(album.getName());
+        }
+
+        comboPane.getChildren().addAll(new Label("Seleccionar Album"), albumnes);
+        comboPane.setSpacing(5);
+
+        Button choseFiles = new Button("Seleccionar imagen");
 
         ImageView preImage = new ImageView();
         preImage.setImage(previewImage);
@@ -281,6 +406,7 @@ public class MainScene implements ControllableScene {
             if (imageFile != null) {
                 Image image = new Image("file:" + imageFile.getAbsolutePath());
                 preImage.setImage(image);
+
             } else {
                 preImage.setImage(previewImage);
             }
@@ -289,14 +415,16 @@ public class MainScene implements ControllableScene {
 
         });
 
-        imagePane.setContent(preImage);
+        groupImage.getChildren().addAll(preImage);
+
+        imagePane.setContent(groupImage);
 
         descp.getChildren().addAll(desc, descpI);
         descp.setAlignment(Pos.CENTER);
         descp.setSpacing(10);
 
         data.getChildren().addAll(name, nameI);
-        main.getChildren().addAll(data, descp, choseFiles);
+        main.getChildren().addAll(data, descp, comboPane, choseFiles, tagger, mainButtons);
 
         main.setAlignment(Pos.TOP_CENTER);
         data.setAlignment(Pos.CENTER);
@@ -312,10 +440,52 @@ public class MainScene implements ControllableScene {
         name.setAlignment(Pos.CENTER_RIGHT);
         nameI.setAlignment(Pos.CENTER);
 
+        startTag.setOnAction((e) -> {
+            if (!tagF.getText().equals("") && !tags.containsKey(tagF.getText())) {
+                uploadStage.setAlwaysOnTop(false);
+
+                preImage.setOnMousePressed((ev) -> {
+                    x = ev.getX();
+                    y = ev.getY();
+
+                    System.out.println("X:" + x + " Y:" + y);
+                });
+                preImage.setOnMouseReleased((ev) -> {
+                    Tag temTag = new Tag(x, y, Math.sqrt(Math.pow(ev.getX() - x, 2)), Math.sqrt(Math.pow(ev.getY() - y, 2)));
+                    System.out.println(temTag);
+                    temTag.setPerson(tagF.getText());
+                    groupImage.getChildren().add(temTag);
+                    tags.put(tagF.getText(), temTag);
+                    tagF.setText("");
+                });
+
+            } else {
+                uploadStage.setAlwaysOnTop(false);
+
+                Alert alerta = new Alert(Alert.AlertType.ERROR);
+                alerta.setContentText("Ingrese un nombre en el campo antes de presionar el boton");
+                alerta.setHeaderText("Falta de campo!");
+                alerta.show();
+            }
+        });
+
+        clear.setOnAction((e) -> {
+            nameI.setText("");
+            descpI.setText("");
+            albumnes.setValue(null);
+            preImage.setImage(previewImage);
+            tagF.setText("");
+            tags.forEach((s, t) -> {
+                groupImage.getChildren().remove(t);
+            });
+            tags = new HashMap<String, Tag>();
+        });
+        
+        save.setOnAction((e)->{
+            myController.getCurrentUser().getAlbum((String) albumnes.getValue()).addImage(new Pic());
+        });
+
         Scene scene = new Scene(divider, 900, 600);
         return scene;
     }
-    /*private Button agregarAlbum(){
-        
-    }*/
 }
