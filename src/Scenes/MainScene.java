@@ -48,6 +48,7 @@ import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import toolkit.Serialize;
 
 /**
  *
@@ -239,7 +240,7 @@ public class MainScene implements ControllableScene {
 
         try {
             for (Album album : myController.getCurrentUser().getAlbumes()) {
-                BAlbum Albumview = new BAlbum(album, album.getName());
+                container.getChildren().add(generateAlbum(album));
             }
         } catch (NullPointerException e) {
             Label label = new Label("Qué triste, no tienes albumes. Pero tranquilo, ¡Agrega uno!");
@@ -265,7 +266,9 @@ public class MainScene implements ControllableScene {
     }
 
     private Button generateAlbum(Album album) {
-        Button btn = new Button(album.getName());
+
+        Button btn = new Button(album.getName(), new ImageView(previewImage));
+
         btn.setMaxWidth(Double.MAX_VALUE);
         return btn;
     }
@@ -447,12 +450,9 @@ public class MainScene implements ControllableScene {
                 preImage.setOnMousePressed((ev) -> {
                     x = ev.getX();
                     y = ev.getY();
-
-                    System.out.println("X:" + x + " Y:" + y);
                 });
                 preImage.setOnMouseReleased((ev) -> {
                     Tag temTag = new Tag(x, y, Math.sqrt(Math.pow(ev.getX() - x, 2)), Math.sqrt(Math.pow(ev.getY() - y, 2)));
-                    System.out.println(temTag);
                     temTag.setPerson(tagF.getText());
                     groupImage.getChildren().add(temTag);
                     tags.put(tagF.getText(), temTag);
@@ -461,7 +461,6 @@ public class MainScene implements ControllableScene {
 
             } else {
                 uploadStage.setAlwaysOnTop(false);
-
                 Alert alerta = new Alert(Alert.AlertType.ERROR);
                 alerta.setContentText("Ingrese un nombre en el campo antes de presionar el boton");
                 alerta.setHeaderText("Falta de campo!");
@@ -480,9 +479,10 @@ public class MainScene implements ControllableScene {
             });
             tags = new HashMap<String, Tag>();
         });
-        
-        save.setOnAction((e)->{
+
+        save.setOnAction((e) -> {
             myController.getCurrentUser().getAlbum((String) albumnes.getValue()).addImage(new Pic());
+            Serialize.actualizarUsuario(myController.getCurrentUser());
         });
 
         Scene scene = new Scene(divider, 900, 600);

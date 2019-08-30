@@ -7,13 +7,14 @@ package clases;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 
 /**
  *
  * @author Franklin
  */
-public class Album implements Serializable {
+public class Album extends Button implements Serializable {
 
     String name;
     String descripcion;
