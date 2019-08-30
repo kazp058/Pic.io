@@ -103,11 +103,13 @@ public class LoginRegisterScene implements ControllableScene {
                 Alert alerta = new Alert(Alert.AlertType.ERROR);
                 alerta.setHeaderText("Por favor, llene todo los espacios");
                 alerta.setTitle("Error");
-            } else if (new Tool().isNumeric(age.getText())) {
+                alerta.show();
+            } else if (!(new Tool().isNumeric(age.getText()))) {
                 Alert alerta = new Alert(Alert.AlertType.ERROR);
                 alerta.setHeaderText("Por favor, en su edad ponga un número. No se ponga chistoso, esto es serio.");
                 alerta.setTitle("Error, pero entre muchas comillas.");
                 age.setText("");
+                alerta.show();
             } else {
                 Serialize tools = new Serialize();
                 User usuario = new User(username.getText(), password.getText(), name.getText(), age.getText());
@@ -120,6 +122,7 @@ public class LoginRegisterScene implements ControllableScene {
                 } else {
                     Alert error = new Alert(Alert.AlertType.ERROR);
                     error.setHeaderText((String) resultado.get(1));
+                    error.show();
                     username.setText("");
                     password.setText("");
                     name.setText("");

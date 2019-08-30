@@ -6,12 +6,14 @@
 package Main;
 
 import Scenes.*;
+import clases.User;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import toolkit.Serialize;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -67,6 +69,13 @@ public class MainClass extends Application {
         primaryStage.setTitle("A Fox's Gallery");
         primaryStage.setScene(scene);
         primaryStage.show();
+        primaryStage.setOnCloseRequest((e)->{
+            if (!(myController.getCurrentUser().getName().equals(""))){
+                User user=myController.getCurrentUser();
+                Serialize tools=new Serialize();
+                boolean x=tools.actualizarUsuario(user);
+            }
+        });
     }
 
     /**

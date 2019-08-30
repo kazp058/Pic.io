@@ -16,10 +16,10 @@ import javafx.scene.image.Image;
  */
 public class Album extends Button implements Serializable {
 
-    String name;
-    String descripcion;
-    String username;
-    public ArrayList<Pic> pics;
+    private String name;
+    private String descripcion;
+    private String username;
+    private ArrayList<Pic> pics;
 
     public Album() {
         this("", "", "");
@@ -29,6 +29,13 @@ public class Album extends Button implements Serializable {
         this.name = n;
         this.descripcion = d;
         this.username = u;
+        this.pics=new ArrayList<Pic>();
+    }
+    public Album(String n, String d, String u, ArrayList<Pic> p){
+        this.name= n;
+        this.descripcion = d;
+        this.username = u;
+        this.pics=p;
     }
 
     public void setName(String x) {
@@ -57,5 +64,9 @@ public class Album extends Button implements Serializable {
 
     public String getUsername() {
         return this.username;
+    }
+
+    public ArrayList<Pic> getPics() {
+        return pics;
     }
 }
