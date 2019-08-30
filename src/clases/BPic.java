@@ -6,6 +6,7 @@
 package clases;
 
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 
 /**
  *
@@ -19,6 +20,7 @@ public class BPic extends Button{
     public BPic(Pic pic){
         super();
         this.imagen=pic;
+        super.setGraphic(new ImageView(pic.getImage()));
     }
     public BPic(Pic pic, String msg){
         super(msg);
@@ -30,5 +32,4 @@ public class BPic extends Button{
     public void setImagen(Pic imagen) {
         this.imagen = imagen;
     }
-    
 }

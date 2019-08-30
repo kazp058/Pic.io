@@ -70,7 +70,7 @@ public class User implements Serializable {
 
     public void removeAlbum(String x) {
         for (Album i : this.albumes) {
-            if (i.name.equals(x)) {
+            if (i.getName().equals(x)) {
                 this.albumes.remove(i);
             }
         }
@@ -103,7 +103,7 @@ public class User implements Serializable {
 
     public Album getAlbum(String x) {
         for (Album i : this.albumes) {
-            if (i.name.equals(x)) {
+            if (i.getName().equals(x)) {
                 return i;
             }
         }
