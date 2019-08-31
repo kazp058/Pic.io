@@ -6,6 +6,7 @@
 package Scenes;
 
 import Stages.Showable;
+import Stages.Slideshow;
 import Stages.createAlbum;
 import clases.Album;
 import java.io.FileInputStream;
@@ -13,6 +14,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import clases.Slider;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -97,7 +100,7 @@ public class MainScene implements ControllableScene {
         VBox sec = new VBox();
 
         ImageView im = new ImageView();
-        ContextMenu albumMenu = getContextMenu();
+        ContextMenu albumMenu = getContextMenu(a);
 
         im.setImage(defaultImage);
         im.setFitWidth(200);
@@ -142,7 +145,7 @@ public class MainScene implements ControllableScene {
         return toolbox;
     }
 
-    private ContextMenu getContextMenu() {
+    private ContextMenu getContextMenu(Album album) {
         ContextMenu cM = new ContextMenu();
 
         MenuItem addImage = new MenuItem("Añadir Imagen");
@@ -152,47 +155,11 @@ public class MainScene implements ControllableScene {
 
         cM.getItems().addAll(addImage, edit, createSS, delete);
 
+        createSS.setOnAction((e)->{
+            Slideshow slideshow= new Slideshow(album,1500);
+            slideshow.getStage().show();
+        });
+
         return cM;
-    }
-
-    private Stage Slideshow(Album album, int tiempo) {
-        Stage slideshow = new Stage();
-
-        Button pausa = new Button("Pausa");
-        Button play = new Button("Play");
-
-        ImageView imageView = new ImageView();
-
-        VBox boxmaster = new VBox();
-        HBox botones = new HBox();
-
-        botones.getChildren().add(pausa);
-        botones.getChildren().add(play);
-        botones.setAlignment(Pos.CENTER);
-
-        boxmaster.getChildren().add(botones);
-        boxmaster.getChildren().add(imageView);
-
-        StackPane root = new StackPane(boxmaster);
-
-        Scene scene = new Scene(root, 720, 1280);
-
-        slideshow.setScene(scene);
-
-        slideshow.setResizable(false);
-
-        Slider slider = new Slider(imageView, tiempo, album);
-        slider.start();
-
-        pausa.setOnAction((e) -> {
-            try {
-                slider.wait();
-            } catch (InterruptedException ex) {
-            }
-        });
-        play.setOnAction((e) -> {
-            slider.notify();
-        });
-        return slideshow;
     }
 }

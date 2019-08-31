@@ -49,8 +49,12 @@ public class Serialize {
         ArrayList importacion = Serialize.importar();
         HashMap<String, User> usuarios = (HashMap<String, User>) importacion.get(2);
         if (usuarios.containsKey(user.getUsername())) {
-            resultado.add(true);
-            resultado.add(usuarios.get(user.getUsername()));
+            if (usuarios.get(user.getUsername()).getPassword().equals(user.getPassword())){
+                resultado.add(true);
+                resultado.add(usuarios.get(user.getUsername()));
+            } else {
+                resultado.add(false);
+            }
         } else {
             resultado.add(false);
         }
