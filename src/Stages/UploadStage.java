@@ -178,7 +178,8 @@ public class UploadStage implements Showable {
         });
 
         save.setOnAction((e) -> {
-            myController.getCurrentUser().getAlbum((String) albumnes.getValue()).addImage(new Pic());
+            Pic nPic = new Pic(nameI.getText(),descpI.getText(),preImage.getImage(), tags);
+            myController.getCurrentUser().getAlbum((String) albumnes.getValue()).addImage(nPic);
             Serialize.actualizarUsuario(myController.getCurrentUser());
             nameI.setText("");
             descpI.setText("");

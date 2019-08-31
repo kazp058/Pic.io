@@ -97,6 +97,7 @@ public class MainScene implements ControllableScene {
             }
         }
         mainPane.setContent(container);
+        container.setSpacing(5);
         toolBox = getToolBox();
     }
 
@@ -111,6 +112,7 @@ public class MainScene implements ControllableScene {
             Label msg = new Label("No has agregado imagenes!");
             container.getChildren().add(msg);
         }
+        container.setSpacing(5);
         mainPane.setContent(container);
 
     }
@@ -163,13 +165,16 @@ public class MainScene implements ControllableScene {
 
         ImageView im = new ImageView();
 
-        im.setImage(defaultImage);
+        im.setImage(p.getImage());
         im.setFitWidth(200);
         im.setFitHeight(200);
         im.setPreserveRatio(true);
 
+        Label name = new Label("Nombre: \n" + p.getNombre());
+
         Label desc = new Label("Descripcion: \n" + p.getDescripcion());
-        sec.getChildren().addAll(desc);
+
+        sec.getChildren().addAll(name, desc);
         pic.getChildren().addAll(im, sec);
 
         sec.setAlignment(Pos.CENTER_LEFT);
