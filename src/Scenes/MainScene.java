@@ -80,6 +80,12 @@ public class MainScene implements ControllableScene {
         myController = controller;
         createAlbumn = new createAlbum(myController, this);
     }
+    
+    public void getPicPane(Album a){
+        
+    }
+    
+    public void set
 
     public MainScene() {
         root = new VBox();
