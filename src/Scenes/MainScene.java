@@ -91,18 +91,11 @@ public class MainScene implements ControllableScene {
         root = new VBox();
         mainPane = new ScrollPane();
         container = new VBox();
-
-        FileInputStream input = null;
-        try {
-            input = new FileInputStream("src/Data/pics/noImage.png");
-            input.close();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(MainSceneV1.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(MainScene.class.getName()).log(Level.SEVERE, null, ex);
+        try{
+            defaultImage= new Image(new FileInputStream("src/Data/pics/noImage.png"));
+        } catch (FileNotFoundException e) {
+            defaultImage=null;
         }
-        defaultImage = new Image(input);
-
     }
 
     public HBox getAlbum(Album a) {
