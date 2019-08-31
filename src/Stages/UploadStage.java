@@ -10,6 +10,7 @@ import clases.Album;
 import clases.Pic;
 import clases.Tag;
 import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -59,6 +60,8 @@ public class UploadStage implements Showable {
         HBox tagger = new HBox();
         Group groupImage = new Group();
 
+        Date date = new Date();
+
         Button clear = new Button("Limpiar");
         Button save = new Button("Guardar");
         mainButtons.getChildren().addAll(clear, save);
@@ -66,7 +69,7 @@ public class UploadStage implements Showable {
         mainButtons.setAlignment(Pos.CENTER);
 
         ScrollPane imagePane = new ScrollPane();
-        imagePane.setPrefSize(600, 600);
+        imagePane.setPrefSize(400, 400);
 
         Label tagL = new Label("Nombre");
         TextField tagF = new TextField();
@@ -120,6 +123,9 @@ public class UploadStage implements Showable {
         groupImage.getChildren().addAll(preImage);
 
         imagePane.setContent(groupImage);
+        preImage.setFitWidth(400);
+        preImage.setFitHeight(400);
+        preImage.setPreserveRatio(true);
 
         descp.getChildren().addAll(desc, descpI);
         descp.setAlignment(Pos.CENTER);
@@ -178,7 +184,7 @@ public class UploadStage implements Showable {
         });
 
         save.setOnAction((e) -> {
-            Pic nPic = new Pic(nameI.getText(),descpI.getText(),preImage.getImage(), tags);
+            Pic nPic = new Pic(nameI.getText(), descpI.getText(), preImage.getImage(), tags);
             myController.getCurrentUser().getAlbum((String) albumnes.getValue()).addImage(nPic);
             Serialize.actualizarUsuario(myController.getCurrentUser());
             nameI.setText("");

@@ -7,27 +7,15 @@ package Scenes;
 
 import Main.MainClass;
 import Stages.Showable;
-<<<<<<< HEAD
 import Stages.Slideshow;
-import Stages.createAlbum;
-=======
 import Stages.CreateAlbum;
 import Stages.UploadStage;
->>>>>>> b4b997b35fecbf35d302c0306210ccf64c0ac356
 import clases.Album;
 import clases.Pic;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-<<<<<<< HEAD
-
-import clases.Slider;
-=======
 import javafx.application.Platform;
->>>>>>> b4b997b35fecbf35d302c0306210ccf64c0ac356
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -176,8 +164,8 @@ public class MainScene implements ControllableScene {
         ImageView im = new ImageView();
 
         im.setImage(p.getImage());
-        im.setFitWidth(200);
-        im.setFitHeight(200);
+        im.setFitWidth(400);
+        im.setFitHeight(400);
         im.setPreserveRatio(true);
 
         Label name = new Label("Nombre: \n" + p.getNombre());
@@ -232,11 +220,8 @@ public class MainScene implements ControllableScene {
         return toolbox;
     }
 
-<<<<<<< HEAD
     private ContextMenu getContextMenu(Album album) {
-=======
-    private ContextMenu getContextMenu(Album a) {
->>>>>>> b4b997b35fecbf35d302c0306210ccf64c0ac356
+
         ContextMenu cM = new ContextMenu();
 
         MenuItem open = new MenuItem("Abrir Album");
@@ -246,14 +231,14 @@ public class MainScene implements ControllableScene {
         MenuItem delete = new MenuItem("Eliminar Album");
 
         open.setOnAction((e) -> {
-            setPicMainPane(a);
+            setPicMainPane(album);
         });
 
         delete.setOnAction((e) -> {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    myController.getCurrentUser().removeAlbum(a.getName());
+                    myController.getCurrentUser().removeAlbum(album.getName());
                     setAlbumMainPane();
                 }
 
@@ -266,11 +251,10 @@ public class MainScene implements ControllableScene {
 
         cM.getItems().addAll(open, addImage, edit, createSS, delete);
 
-<<<<<<< HEAD
-        createSS.setOnAction((e)->{
-            Slideshow slideshow= new Slideshow(album,1500);
+        createSS.setOnAction((e) -> {
+            Slideshow slideshow = new Slideshow(album, 1500);
             slideshow.getStage().show();
-=======
+        });
         return cM;
     }
 
@@ -278,46 +262,4 @@ public class MainScene implements ControllableScene {
         return container;
     }
 
-    private Stage Slideshow(Album album, int tiempo) {
-        Stage slideshow = new Stage();
-
-        Button pausa = new Button("Pausa");
-        Button play = new Button("Play");
-
-        ImageView imageView = new ImageView();
-
-        VBox boxmaster = new VBox();
-        HBox botones = new HBox();
-
-        botones.getChildren().add(pausa);
-        botones.getChildren().add(play);
-        botones.setAlignment(Pos.CENTER);
-
-        boxmaster.getChildren().add(botones);
-        boxmaster.getChildren().add(imageView);
-
-        StackPane root = new StackPane(boxmaster);
-
-        Scene scene = new Scene(root, 720, 1280);
-
-        slideshow.setScene(scene);
-
-        slideshow.setResizable(false);
-
-        Slider slider = new Slider(imageView, tiempo, album);
-        slider.start();
-
-        pausa.setOnAction((e) -> {
-            try {
-                slider.wait();
-            } catch (InterruptedException ex) {
-            }
-        });
-        play.setOnAction((e) -> {
-            slider.notify();
->>>>>>> b4b997b35fecbf35d302c0306210ccf64c0ac356
-        });
-
-        return cM;
-    }
 }
