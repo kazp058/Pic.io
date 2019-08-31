@@ -33,16 +33,7 @@ import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
@@ -487,5 +478,40 @@ public class MainScene implements ControllableScene {
 
         Scene scene = new Scene(divider, 900, 600);
         return scene;
+    }
+    private Stage Slideshow(Album album, int tiempo){
+        Stage slideshow= new Stage();
+
+        Button pausa= new Button("Pausa"); Button play= new Button("Play");
+
+        ImageView imageView=new ImageView();
+
+        VBox boxmaster= new VBox(); HBox botones= new HBox();
+
+        botones.getChildren().add(pausa); botones.getChildren().add(play); botones.setAlignment(Pos.CENTER);
+
+        boxmaster.getChildren().add(botones); boxmaster.getChildren().add(imageView);
+
+        StackPane root= new StackPane(boxmaster);
+
+        Scene scene= new Scene(root,720,1280);
+
+        slideshow.setScene(scene);
+
+        slideshow.setResizable(false);
+
+        Slider slider=new Slider(imageView,tiempo,album);
+        slider.start();
+
+        pausa.setOnAction((e)->{
+            try {
+                slider.wait();
+            } catch (InterruptedException ex) {
+            }
+        });
+        play.setOnAction((e)->{
+            slider.notify();
+        });
+        return slideshow;
     }
 }
