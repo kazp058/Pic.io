@@ -105,6 +105,7 @@ public class createAlbum implements Showable {
 
             nameT.setText("");
             descT.setText("");
+            myController.setScene(MainClass.mainName);
 
         });
 

@@ -18,13 +18,15 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.stage.FileChooser;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -40,6 +42,8 @@ public class MainScene implements ControllableScene {
 
     //Panes
     VBox root;
+    ScrollPane mainPane;
+    VBox container;
 
     //Fields
     private ComboBox searchField;
@@ -51,13 +55,23 @@ public class MainScene implements ControllableScene {
     public Scene getScene() {
         root = new VBox();
 
-        root.getChildren().add(getToolBox());
+        root.getChildren().addAll(getToolBox(), mainPane);
+        root.setSpacing(5);
+        root.setMinHeight(Control.USE_COMPUTED_SIZE);
+        root.setMinWidth(Control.USE_COMPUTED_SIZE);
 
         if (myController.getCurrentUser().getAlbumes().size() > 0) {
             for (Album album : myController.getCurrentUser().getAlbumes()) {
-                root.getChildren().add(getAlbum(album));
+                container.getChildren().add(getAlbum(album));
             }
         }
+
+        mainPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        mainPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        mainPane.setContent(container);
+        mainPane.setFitToWidth(true);
+        container.setSpacing(5);
+
         return new Scene(root, myController.getSize()[0], myController.getSize()[1]);
     }
 
@@ -69,10 +83,12 @@ public class MainScene implements ControllableScene {
 
     public MainScene() {
         root = new VBox();
+        mainPane = new ScrollPane();
+        container = new VBox();
 
         FileInputStream input = null;
         try {
-            input = new FileInputStream("src/Data/pics/noImage.jpg");
+            input = new FileInputStream("src/Data/pics/noImage.png");
             input.close();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(MainSceneV1.class.getName()).log(Level.SEVERE, null, ex);
@@ -87,14 +103,14 @@ public class MainScene implements ControllableScene {
         HBox album = new HBox();
         VBox sec = new VBox();
 
-        System.out.println(defaultImage);
         ImageView im = new ImageView();
-        
+        ContextMenu albumMenu = getContextMenu();
+
         im.setImage(defaultImage);
-        im.setFitWidth(100);
-        im.setFitHeight(100);
+        im.setFitWidth(200);
+        im.setFitHeight(200);
         im.setPreserveRatio(true);
-        
+
         Label name = new Label(a.getName());
         Label desc = new Label(a.getDescripcion());
         sec.getChildren().addAll(name, desc);
@@ -103,10 +119,11 @@ public class MainScene implements ControllableScene {
         sec.setAlignment(Pos.CENTER);
         album.setAlignment(Pos.CENTER);
 
-        album.setOnMousePressed((e) -> {
-            System.out.println("F");
+        album.setOnContextMenuRequested((e) -> {
+            albumMenu.show(name, e.getSceneX(), e.getSceneY());
         });
-        System.out.println(im);
+
+        album.setBackground(new Background(new BackgroundFill(Color.rgb(191, 191, 191), CornerRadii.EMPTY, Insets.EMPTY)));
 
         return album;
     }
@@ -127,40 +144,60 @@ public class MainScene implements ControllableScene {
         toolbox.getChildren().addAll(searchField, searchButton, new HBox(), addAlbumn);
         toolbox.setPadding(new Insets(5, 10, 5, 10));
         toolbox.setSpacing(15);
+        toolbox.setBackground(new Background(new BackgroundFill(Color.rgb(201, 2, 19), CornerRadii.EMPTY, Insets.EMPTY)));
 
         return toolbox;
     }
-    private Stage Slideshow(Album album, int tiempo){
-        Stage slideshow= new Stage();
 
-        Button pausa= new Button("Pausa"); Button play= new Button("Play");
+    private ContextMenu getContextMenu() {
+        ContextMenu cM = new ContextMenu();
 
-        ImageView imageView=new ImageView();
+        MenuItem addImage = new MenuItem("Añadir Imagen");
+        MenuItem edit = new MenuItem("Editar Album");
+        MenuItem createSS = new MenuItem("Crear SlideShow");
+        MenuItem delete = new MenuItem("Eliminar Album");
 
-        VBox boxmaster= new VBox(); HBox botones= new HBox();
+        cM.getItems().addAll(addImage, edit, createSS, delete);
 
-        botones.getChildren().add(pausa); botones.getChildren().add(play); botones.setAlignment(Pos.CENTER);
+        return cM;
+    }
 
-        boxmaster.getChildren().add(botones); boxmaster.getChildren().add(imageView);
+    private Stage Slideshow(Album album, int tiempo) {
+        Stage slideshow = new Stage();
 
-        StackPane root= new StackPane(boxmaster);
+        Button pausa = new Button("Pausa");
+        Button play = new Button("Play");
 
-        Scene scene= new Scene(root,720,1280);
+        ImageView imageView = new ImageView();
+
+        VBox boxmaster = new VBox();
+        HBox botones = new HBox();
+
+        botones.getChildren().add(pausa);
+        botones.getChildren().add(play);
+        botones.setAlignment(Pos.CENTER);
+
+        boxmaster.getChildren().add(botones);
+        boxmaster.getChildren().add(imageView);
+
+        StackPane root = new StackPane(boxmaster);
+
+        Scene scene = new Scene(root, 720, 1280);
 
         slideshow.setScene(scene);
 
         slideshow.setResizable(false);
 
-        Slider slider=new Slider(imageView,tiempo,album);
+        Slider slider = new Slider(imageView, tiempo, album);
         slider.start();
 
-        pausa.setOnAction((e)->{
+        pausa.setOnAction((e) -> {
             try {
                 slider.wait();
             } catch (InterruptedException ex) {
             }
         });
-        play.setOnAction((e)->{
+        play.setOnAction((e) -> {
             slider.notify();
         });
         return slideshow;
