@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
  */
 public class Pic implements Serializable {
 
+    String nombre;
     String descripcion;
     String lugar;
     String fecha;
@@ -29,10 +30,22 @@ public class Pic implements Serializable {
     HashMap<String, Tag> tags;
 
     public Pic() {
+        this.nombre = "";
         this.descripcion = "";
         this.lugar = "";
         this.fecha = "";
         this.reaccion = "";
+    }
+
+    public Pic(String nombre, String descripcion, Image image, HashMap<String, Tag> tags) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.image = image;
+        this.tags = tags;
+    }
+
+    public String getNombre() {
+        return nombre;
     }
 
     public Pic(String fl) throws FileNotFoundException {
@@ -41,7 +54,8 @@ public class Pic implements Serializable {
         this.image = imagen;
     }
 
-    public Pic(String d, String l, String f, String r, String fl, Cam c) throws FileNotFoundException {
+    public Pic(String n,String d, String l, String f, String r, String fl, Cam c) throws FileNotFoundException {
+        this.nombre = n;
         this.descripcion = d;
         this.lugar = l;
         this.fecha = f;
