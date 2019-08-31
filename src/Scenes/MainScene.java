@@ -39,7 +39,7 @@ public class MainScene implements ControllableScene {
 
     //Fields
     private ComboBox searchField;
-    
+
     //Stages
     private Showable createAlbumn;
 
@@ -59,7 +59,8 @@ public class MainScene implements ControllableScene {
 
     @Override
     public void setParent(ScreensController controller) {
-        this.myController = controller;
+        myController = controller;
+        createAlbumn = new createAlbum(myController, this);
     }
 
     public MainScene() {
@@ -75,8 +76,6 @@ public class MainScene implements ControllableScene {
             Logger.getLogger(MainScene.class.getName()).log(Level.SEVERE, null, ex);
         }
         defaultImage = new Image(input);
-        
-        this.createAlbumn = new createAlbum(myController);
 
     }
 
@@ -84,7 +83,14 @@ public class MainScene implements ControllableScene {
         HBox album = new HBox();
         VBox sec = new VBox();
 
-        ImageView im = new ImageView(defaultImage);
+        System.out.println(defaultImage);
+        ImageView im = new ImageView();
+        
+        im.setImage(defaultImage);
+        im.setFitWidth(100);
+        im.setFitHeight(100);
+        im.setPreserveRatio(true);
+        
         Label name = new Label(a.getName());
         Label desc = new Label(a.getDescripcion());
         sec.getChildren().addAll(name, desc);
@@ -92,6 +98,11 @@ public class MainScene implements ControllableScene {
 
         sec.setAlignment(Pos.CENTER);
         album.setAlignment(Pos.CENTER);
+
+        album.setOnMousePressed((e) -> {
+            System.out.println("F");
+        });
+        System.out.println(im);
 
         return album;
     }
@@ -104,12 +115,12 @@ public class MainScene implements ControllableScene {
 
         Button searchButton = new Button("Buscar");
         Button addAlbumn = new Button("Crear Albumn");
-        
-        addAlbumn.setOnAction((e) ->{
+
+        addAlbumn.setOnAction((e) -> {
             createAlbumn.getStage().show();
         });
 
-        toolbox.getChildren().addAll(searchField, searchButton, new HBox() , addAlbumn);
+        toolbox.getChildren().addAll(searchField, searchButton, new HBox(), addAlbumn);
         toolbox.setPadding(new Insets(5, 10, 5, 10));
         toolbox.setSpacing(15);
 

@@ -5,6 +5,8 @@
  */
 package Stages;
 
+import Main.MainClass;
+import Scenes.MainScene;
 import Scenes.ScreensController;
 import clases.Album;
 import javafx.geometry.Insets;
@@ -25,9 +27,11 @@ import javafx.stage.Stage;
 public class createAlbum implements Showable {
 
     ScreensController myController;
+    MainScene parent;
 
-    public createAlbum(ScreensController myController) {
+    public createAlbum(ScreensController myController, MainScene parent) {
         this.myController = myController;
+        this.parent = parent;
     }
 
     @Override
@@ -77,10 +81,8 @@ public class createAlbum implements Showable {
         save.setOnAction((e) -> {
 
             stage.setAlwaysOnTop(false);
-            System.out.println("asdasdsd");
-            myController.getCurrentUser().getAlbumes();
             try {
-                
+
                 boolean val = myController.getCurrentUser().addAlbum(new Album(nameT.getText(), descT.getText(), myController.getCurrentUser().getUsername()));
                 if (val) {
                     stage.setAlwaysOnTop(false);
@@ -107,7 +109,6 @@ public class createAlbum implements Showable {
         });
 
         stage.setScene(new Scene(main));
-
         return stage;
     }
 
