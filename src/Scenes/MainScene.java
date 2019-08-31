@@ -5,14 +5,19 @@
  */
 package Scenes;
 
+import Main.MainClass;
 import Stages.Showable;
-import Stages.createAlbum;
+import Stages.CreateAlbum;
+import Stages.UploadStage;
 import clases.Album;
+import clases.Pic;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -44,28 +49,29 @@ public class MainScene implements ControllableScene {
     VBox root;
     ScrollPane mainPane;
     VBox container;
+    HBox toolBox;
 
     //Fields
     private ComboBox searchField;
 
     //Stages
     private Showable createAlbumn;
+    private Showable uploadStage;
+
+    //Variables
+    private HashMap<String, ScrollPane> mainPanes;
+    private String albumName = "album";
+    private String picsName = "pics";
 
     @Override
     public Scene getScene() {
         root = new VBox();
 
-        root.getChildren().addAll(getToolBox(), mainPane);
+        root.getChildren().addAll(toolBox, mainPane);
         root.setSpacing(5);
         root.setMinHeight(Control.USE_COMPUTED_SIZE);
         root.setMinWidth(Control.USE_COMPUTED_SIZE);
-
-        if (myController.getCurrentUser().getAlbumes().size() > 0) {
-            for (Album album : myController.getCurrentUser().getAlbumes()) {
-                container.getChildren().add(getAlbum(album));
-            }
-        }
-
+        setAlbumMainPane();
         mainPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         mainPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         mainPane.setContent(container);
@@ -78,24 +84,47 @@ public class MainScene implements ControllableScene {
     @Override
     public void setParent(ScreensController controller) {
         myController = controller;
-        createAlbumn = new createAlbum(myController, this);
+        createAlbumn = new CreateAlbum(myController, this);
+        uploadStage = new UploadStage(myController, defaultImage);
+
     }
-    
-    public void getPicPane(Album a){
-        
+
+    private void setAlbumMainPane() {
+        container = new VBox();
+        if (myController.getCurrentUser().getAlbumes().size() > 0) {
+            for (Album album : myController.getCurrentUser().getAlbumes()) {
+                container.getChildren().add(getAlbum(album));
+            }
+        }
+        mainPane.setContent(container);
+        toolBox = getToolBox();
     }
-    
-    public void set
+
+    private void setPicMainPane(Album a) {
+        container = new VBox();
+
+        if (a.getPics().size() > 0) {
+            for (Pic pic : a.getPics()) {
+                container.getChildren().add(getPic(pic));
+            }
+        } else {
+            Label msg = new Label("No has agregado imagenes!");
+            container.getChildren().add(msg);
+        }
+        mainPane.setContent(container);
+
+    }
 
     public MainScene() {
         root = new VBox();
         mainPane = new ScrollPane();
         container = new VBox();
-        try{
-            defaultImage= new Image(new FileInputStream("src/Data/pics/noImage.png"));
+        try {
+            defaultImage = new Image(new FileInputStream("src/Data/pics/noImage.png"));
         } catch (FileNotFoundException e) {
-            defaultImage=null;
+            defaultImage = null;
         }
+        toolBox = getToolBox();
     }
 
     public HBox getAlbum(Album a) {
@@ -103,28 +132,56 @@ public class MainScene implements ControllableScene {
         VBox sec = new VBox();
 
         ImageView im = new ImageView();
-        ContextMenu albumMenu = getContextMenu();
+        ContextMenu albumMenu = getContextMenu(a);
 
         im.setImage(defaultImage);
         im.setFitWidth(200);
         im.setFitHeight(200);
         im.setPreserveRatio(true);
 
-        Label name = new Label(a.getName());
-        Label desc = new Label(a.getDescripcion());
+        Label name = new Label("Nombre del Album: \n" + a.getName());
+        Label desc = new Label("Descripcion: \n" + a.getDescripcion());
         sec.getChildren().addAll(name, desc);
         album.getChildren().addAll(im, sec);
 
-        sec.setAlignment(Pos.CENTER);
-        album.setAlignment(Pos.CENTER);
+        sec.setAlignment(Pos.CENTER_LEFT);
+        album.setAlignment(Pos.CENTER_LEFT);
+        album.setSpacing(10);
 
         album.setOnContextMenuRequested((e) -> {
             albumMenu.show(name, e.getSceneX(), e.getSceneY());
         });
 
-        album.setBackground(new Background(new BackgroundFill(Color.rgb(191, 191, 191), CornerRadii.EMPTY, Insets.EMPTY)));
+        album.setBackground(new Background(new BackgroundFill(Color.rgb(255, 255, 255), CornerRadii.EMPTY, Insets.EMPTY)));
 
         return album;
+    }
+
+    public HBox getPic(Pic p) {
+        HBox pic = new HBox();
+        VBox sec = new VBox();
+
+        ImageView im = new ImageView();
+
+        im.setImage(defaultImage);
+        im.setFitWidth(200);
+        im.setFitHeight(200);
+        im.setPreserveRatio(true);
+
+        Label desc = new Label("Descripcion: \n" + p.getDescripcion());
+        sec.getChildren().addAll(desc);
+        pic.getChildren().addAll(im, sec);
+
+        sec.setAlignment(Pos.CENTER_LEFT);
+        pic.setAlignment(Pos.CENTER_LEFT);
+        pic.setSpacing(10);
+
+        pic.setOnContextMenuRequested((e) -> {
+        });
+
+        pic.setBackground(new Background(new BackgroundFill(Color.rgb(255, 255, 255), CornerRadii.EMPTY, Insets.EMPTY)));
+
+        return pic;
     }
 
     public HBox getToolBox() {
@@ -135,12 +192,24 @@ public class MainScene implements ControllableScene {
 
         Button searchButton = new Button("Buscar");
         Button addAlbumn = new Button("Crear Albumn");
+        Button logOut = new Button("Cerrar Sesion");
+        Button goBack = new Button("Regresar");
+        Button createSlideShow = new Button("Crear SlideShow");
+        Button addImage = new Button("Añadir Imagen");
 
         addAlbumn.setOnAction((e) -> {
             createAlbumn.getStage().show();
         });
 
-        toolbox.getChildren().addAll(searchField, searchButton, new HBox(), addAlbumn);
+        logOut.setOnAction((e) -> {
+            myController.setScene(MainClass.loginName);
+        });
+
+        goBack.setOnAction((e) -> {
+            setAlbumMainPane();
+        });
+
+        toolbox.getChildren().addAll(searchField, searchButton, new HBox(), addAlbumn, addImage, new HBox(), createSlideShow, goBack, new HBox(), logOut);
         toolbox.setPadding(new Insets(5, 10, 5, 10));
         toolbox.setSpacing(15);
         toolbox.setBackground(new Background(new BackgroundFill(Color.rgb(201, 2, 19), CornerRadii.EMPTY, Insets.EMPTY)));
@@ -148,17 +217,41 @@ public class MainScene implements ControllableScene {
         return toolbox;
     }
 
-    private ContextMenu getContextMenu() {
+    private ContextMenu getContextMenu(Album a) {
         ContextMenu cM = new ContextMenu();
 
+        MenuItem open = new MenuItem("Abrir Album");
         MenuItem addImage = new MenuItem("Añadir Imagen");
         MenuItem edit = new MenuItem("Editar Album");
         MenuItem createSS = new MenuItem("Crear SlideShow");
         MenuItem delete = new MenuItem("Eliminar Album");
 
-        cM.getItems().addAll(addImage, edit, createSS, delete);
+        open.setOnAction((e) -> {
+            setPicMainPane(a);
+        });
+
+        delete.setOnAction((e) -> {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    myController.getCurrentUser().removeAlbum(a.getName());
+                    setAlbumMainPane();
+                }
+
+            });
+        });
+
+        addImage.setOnAction((e) -> {
+            uploadStage.getStage().show();
+        });
+
+        cM.getItems().addAll(open, addImage, edit, createSS, delete);
 
         return cM;
+    }
+
+    public VBox getContainer() {
+        return container;
     }
 
     private Stage Slideshow(Album album, int tiempo) {

@@ -24,12 +24,12 @@ import javafx.stage.Stage;
  *
  * @author KEVIN Z
  */
-public class createAlbum implements Showable {
+public class CreateAlbum implements Showable {
 
     ScreensController myController;
     MainScene parent;
 
-    public createAlbum(ScreensController myController, MainScene parent) {
+    public CreateAlbum(ScreensController myController, MainScene parent) {
         this.myController = myController;
         this.parent = parent;
     }
@@ -82,14 +82,15 @@ public class createAlbum implements Showable {
 
             stage.setAlwaysOnTop(false);
             try {
-
-                boolean val = myController.getCurrentUser().addAlbum(new Album(nameT.getText(), descT.getText(), myController.getCurrentUser().getUsername()));
+                Album a = new Album(nameT.getText(), descT.getText(), myController.getCurrentUser().getUsername());
+                boolean val = myController.getCurrentUser().addAlbum(a);
                 if (val) {
                     stage.setAlwaysOnTop(false);
                     Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
                     alerta.setContentText("La informacion ha sido ingresada correctamente");
                     alerta.setHeaderText("Album creado con exito");
                     alerta.show();
+                    parent.getContainer().getChildren().add(parent.getAlbum(a));
 
                 } else {
                     stage.setAlwaysOnTop(false);
@@ -105,7 +106,6 @@ public class createAlbum implements Showable {
 
             nameT.setText("");
             descT.setText("");
-            myController.setScene(MainClass.mainName);
 
         });
 
