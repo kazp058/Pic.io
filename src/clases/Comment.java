@@ -20,7 +20,7 @@ public class Comment implements Serializable {
     public Comment(){
         this.text=""; this.user=null;
     }
-    public Comment(String t,String h,User u){
+    public Comment(String t,User u){
         this.text=t;this.user=u;
         DateTimeFormatter dtf= DateTimeFormatter.ofPattern("MM/yy/dd HH:mm:ss");
         this.fecha=dtf.format(LocalDateTime.now());
