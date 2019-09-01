@@ -290,6 +290,19 @@ public class MainScene implements ControllableScene {
         return cM;
     }
 
+    private ContextMenu getCMP(Pic p) {
+        ContextMenu cm = new ContextMenu();
+    
+        MenuItem open = new MenuItem("Abrir Imagen");
+        MenuItem move = new MenuItem("Mover");
+        MenuItem delete = new MenuItem("Borrar");
+        MenuItem edit = new MenuItem("Editar");
+        
+        cm.getItems().addAll(open, move, edit, delete);
+                
+        return cm;
+    }
+
     public VBox getContainer() {
         return container;
     }
