@@ -19,6 +19,10 @@ import javafx.scene.image.Image;
  */
 public class Pic implements Serializable {
 
+    public HashMap<String, Tag> getTags() {
+        return tags;
+    }
+
     String nombre;
     String descripcion;
     String lugar;
