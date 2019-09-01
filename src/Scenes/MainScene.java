@@ -9,6 +9,7 @@ import Main.MainClass;
 import Stages.Showable;
 import Stages.Slideshow;
 import Stages.CreateAlbum;
+import Stages.EditAlbum;
 import Stages.UploadStage;
 import clases.Album;
 import clases.Pic;
@@ -55,6 +56,7 @@ public class MainScene implements ControllableScene {
     //Stages
     private Showable createAlbumn;
     private Showable uploadStage;
+    private Showable editAlbum;
 
     //Variables
     private HashMap<String, ScrollPane> mainPanes;
@@ -84,10 +86,11 @@ public class MainScene implements ControllableScene {
         myController = controller;
         createAlbumn = new CreateAlbum(myController, this);
         uploadStage = new UploadStage(myController, defaultImage);
+        editAlbum = new EditAlbum(myController, this);
 
     }
 
-    private void setAlbumMainPane() {
+    public void setAlbumMainPane() {
         container = new VBox();
         if (myController.getCurrentUser().getAlbumes().size() > 0) {
             for (Album album : myController.getCurrentUser().getAlbumes()) {
@@ -168,11 +171,16 @@ public class MainScene implements ControllableScene {
         im.setFitHeight(400);
         im.setPreserveRatio(true);
 
-        Label name = new Label("Nombre: \n" + p.getNombre());
+        Label name = new Label("Nombre:\n\t" + p.getNombre());
+        Label desc = new Label("Descripcion:\n\t" + p.getDescripcion());
+        Label date;
+        if (p.getDate() != null) {
+            date = new Label("Fecha:\n\t" + p.getDate().getDay() + "/" + p.getDate().getMonth() + "/" + p.getDate().getYear());
+        } else {
+            date = new Label("Fecha:\n\tNo hay fecha disponible");
+        }
 
-        Label desc = new Label("Descripcion: \n" + p.getDescripcion());
-
-        sec.getChildren().addAll(name, desc);
+        sec.getChildren().addAll(name, desc, date);
         pic.getChildren().addAll(im, sec);
 
         sec.setAlignment(Pos.CENTER_LEFT);
@@ -197,7 +205,6 @@ public class MainScene implements ControllableScene {
         Button addAlbumn = new Button("Crear Albumn");
         Button logOut = new Button("Cerrar Sesion");
         Button goBack = new Button("Regresar");
-        Button createSlideShow = new Button("Crear SlideShow");
         Button addImage = new Button("Añadir Imagen");
 
         addAlbumn.setOnAction((e) -> {
@@ -211,8 +218,11 @@ public class MainScene implements ControllableScene {
         goBack.setOnAction((e) -> {
             setAlbumMainPane();
         });
+        addImage.setOnAction((e) -> {
+            uploadStage.getStage().show();
+        });
 
-        toolbox.getChildren().addAll(searchField, searchButton, new HBox(), addAlbumn, addImage, new HBox(), createSlideShow, goBack, new HBox(), logOut);
+        toolbox.getChildren().addAll(searchField, searchButton, new HBox(), addAlbumn, addImage, new HBox(), goBack, new HBox(), logOut);
         toolbox.setPadding(new Insets(5, 10, 5, 10));
         toolbox.setSpacing(15);
         toolbox.setBackground(new Background(new BackgroundFill(Color.rgb(201, 2, 19), CornerRadii.EMPTY, Insets.EMPTY)));
@@ -233,13 +243,20 @@ public class MainScene implements ControllableScene {
         open.setOnAction((e) -> {
             setPicMainPane(album);
         });
+        edit.setOnAction((e) -> {
+            editAlbum.getStage().show();
+        });
 
         delete.setOnAction((e) -> {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    myController.getCurrentUser().removeAlbum(album.getName());
-                    setAlbumMainPane();
+                    try {
+                        myController.getCurrentUser().removeAlbum(album.getName());
+
+                    } catch (Exception e) {
+                        setAlbumMainPane();
+                    }
                 }
 
             });

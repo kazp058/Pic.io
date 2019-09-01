@@ -59,6 +59,7 @@ public class UploadStage implements Showable {
         HBox mainButtons = new HBox();
         HBox tagger = new HBox();
         Group groupImage = new Group();
+        HBox datePane = new HBox();
 
         Date date = new Date();
 
@@ -85,6 +86,24 @@ public class UploadStage implements Showable {
         TextField nameI = new TextField();
 
         ComboBox albumnes = new ComboBox();
+        
+        
+        ComboBox days = new ComboBox();
+        for (int i = 1; i <= 31; i++ ){
+            days.getItems().add(i);
+        }
+        
+        ComboBox months = new ComboBox();
+        for(int i = 1; i <=12; i++){
+            months.getItems().add(i);
+        }
+        
+        ComboBox years = new ComboBox();
+        for(int i = 2019; i >= 1960; i--){
+            years.getItems().add(i);
+        }
+        
+        datePane.getChildren().addAll(days, new Label(" / "), months, new Label(" / "), years);
 
         for (Album album : myController.getCurrentUser().getAlbumes()) {
             albumnes.getItems().add(album.getName());
@@ -132,7 +151,7 @@ public class UploadStage implements Showable {
         descp.setSpacing(10);
 
         data.getChildren().addAll(name, nameI);
-        main.getChildren().addAll(data, descp, comboPane, choseFiles, tagger, mainButtons);
+        main.getChildren().addAll(data, descp, comboPane, new Label("Fecha:"),datePane,choseFiles, tagger, mainButtons);
 
         main.setAlignment(Pos.TOP_CENTER);
         data.setAlignment(Pos.CENTER);
@@ -181,10 +200,14 @@ public class UploadStage implements Showable {
                 groupImage.getChildren().remove(t);
             });
             tags = new HashMap<String, Tag>();
+            months.setValue(null);
+            days.setValue(null);
+            years.setValue(null);
         });
 
         save.setOnAction((e) -> {
             Pic nPic = new Pic(nameI.getText(), descpI.getText(), preImage.getImage(), tags);
+            nPic.setDate(new Date((int)years.getValue(),(int)months.getValue(),(int)days.getValue()));
             myController.getCurrentUser().getAlbum((String) albumnes.getValue()).addImage(nPic);
             Serialize.actualizarUsuario(myController.getCurrentUser());
             nameI.setText("");

@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import javafx.scene.image.Image;
 
@@ -21,7 +22,6 @@ public class Pic implements Serializable {
     String nombre;
     String descripcion;
     String lugar;
-    String fecha;
     String reaccion;
     Image image;
     ArrayList<String> hashtags;
@@ -29,12 +29,17 @@ public class Pic implements Serializable {
     Cam cam;
     HashMap<String, Tag> tags;
 
+    Date date;
+
     public Pic() {
         this.nombre = "";
         this.descripcion = "";
         this.lugar = "";
-        this.fecha = "";
         this.reaccion = "";
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Pic(String nombre, String descripcion, Image image, HashMap<String, Tag> tags) {
@@ -54,11 +59,10 @@ public class Pic implements Serializable {
         this.image = imagen;
     }
 
-    public Pic(String n,String d, String l, String f, String r, String fl, Cam c) throws FileNotFoundException {
+    public Pic(String n, String d, String l, String r, String fl, Cam c) throws FileNotFoundException {
         this.nombre = n;
         this.descripcion = d;
         this.lugar = l;
-        this.fecha = f;
         this.reaccion = r;
         this.cam = c;
         FileInputStream in = new FileInputStream(fl);
@@ -74,8 +78,12 @@ public class Pic implements Serializable {
         return this.lugar;
     }
 
-    public String getFecha() {
-        return this.fecha;
+    public Date getDate() {
+        if (date != null) {
+            return date;
+        } else {
+            return null;
+        }
     }
 
     public String getReaccion() {
@@ -92,10 +100,6 @@ public class Pic implements Serializable {
 
     public void setLugar(String x) {
         this.lugar = x;
-    }
-
-    public void setFecha(String x) {
-        this.fecha = x;
     }
 
     public void setReaccion(String x) {
