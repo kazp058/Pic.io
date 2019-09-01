@@ -56,7 +56,7 @@ public class Slideshow implements Showable {
         Button play = new Button("Play");
 
 
-        VBox boxmaster = new VBox();
+        VBox boxmaster = new VBox(); boxmaster.setAlignment(Pos.CENTER);
         HBox botones = new HBox();
 
         botones.getChildren().add(pausa);
