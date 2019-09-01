@@ -241,6 +241,10 @@ public class MainScene implements ControllableScene {
             uploadStage.getStage().show();
         });
 
+        searchButton.setOnAction((e)->{
+
+        });
+
         toolbox.getChildren().addAll(searchField, searchButton, new HBox(), addAlbumn, addImage, new HBox(), goBack, new HBox(), logOut);
         toolbox.setPadding(new Insets(5, 10, 5, 10));
         toolbox.setSpacing(15);
