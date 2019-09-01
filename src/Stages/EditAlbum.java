@@ -38,7 +38,7 @@ public class EditAlbum implements Showable {
     public Stage getStage() {
         Stage stage = new Stage();
         Button clean = new Button("Limpiar");
-        Button save = new Button("Crear");
+        Button save = new Button("Modificar");
 
         VBox main = new VBox();
         HBox nameBox = new HBox();

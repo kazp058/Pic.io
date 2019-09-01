@@ -11,6 +11,7 @@ import Stages.Slideshow;
 import Stages.CreateAlbum;
 import Stages.EditAlbum;
 import Stages.Foto;
+import Stages.MoveAlbum;
 import Stages.UploadStage;
 import clases.Album;
 import clases.Pic;
@@ -21,6 +22,7 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
@@ -108,7 +110,7 @@ public class MainScene implements ControllableScene {
 
         if (a.getPics().size() > 0) {
             for (Pic pic : a.getPics()) {
-                container.getChildren().add(getPic(pic));
+                container.getChildren().add(getPic(pic, a));
             }
         } else {
             Label msg = new Label("No has agregado imagenes!");
@@ -161,7 +163,7 @@ public class MainScene implements ControllableScene {
         return album;
     }
 
-    public HBox getPic(Pic p) {
+    public HBox getPic(Pic p, Album a) {
         HBox pic = new HBox();
         VBox sec = new VBox();
 
@@ -204,7 +206,7 @@ public class MainScene implements ControllableScene {
         pic.setSpacing(10);
 
         pic.setOnContextMenuRequested((e) -> {
-            getCMP(p).show(name, e.getSceneX(), e.getSceneY());
+            getCMP(p, a).show(name, e.getSceneX(), e.getSceneY());
         });
 
         pic.setBackground(new Background(new BackgroundFill(Color.rgb(255, 255, 255), CornerRadii.EMPTY, Insets.EMPTY)));
@@ -292,21 +294,36 @@ public class MainScene implements ControllableScene {
         return cM;
     }
 
-    private ContextMenu getCMP(Pic p) {
+    private ContextMenu getCMP(Pic p, Album a) {
         ContextMenu cm = new ContextMenu();
-    
+
         MenuItem open = new MenuItem("Abrir Imagen");
         MenuItem move = new MenuItem("Mover");
         MenuItem delete = new MenuItem("Borrar");
         MenuItem edit = new MenuItem("Editar");
-        
+
         cm.getItems().addAll(open, move, edit, delete);
-        
-        open.setOnAction((e)->{
+
+        open.setOnAction((e) -> {
             Foto f = new Foto(p);
             f.getStage().show();
         });
-                        
+
+        move.setOnAction((e) -> {
+            Showable ma = new MoveAlbum(myController, p, a, this);
+            ma.getStage().show();
+        });
+
+        delete.setOnAction((e) -> {
+            a.getPics().remove(p);
+
+            Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+            alerta.setContentText("La informacion ha sido ingresada correctamente");
+            alerta.setHeaderText("Eliminada con exito!!!");
+            alerta.show();
+            this.setAlbumMainPane();
+        });
+
         return cm;
     }
 
