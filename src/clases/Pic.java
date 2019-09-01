@@ -25,7 +25,7 @@ public class Pic implements Serializable {
     private String reaccion;
     private Image image;
     private ArrayList<String> hashtags;
-    private ArrayList<Comment> comments;
+    private ArrayList<Comment> comments = new ArrayList<>();
     private Cam cam;
     private HashMap<String, Tag> tags;
 
