@@ -27,5 +27,9 @@ public class Tag extends Rectangle {
     public void setPerson(String person) {
         this.person = person;
     }
+    
+    public String toString(){
+        return person;
+    }
 
 }

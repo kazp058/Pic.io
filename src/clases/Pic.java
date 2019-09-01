@@ -19,6 +19,7 @@ import javafx.scene.image.Image;
  */
 public class Pic implements Serializable {
 
+<<<<<<< HEAD
     private String nombre;
     private String descripcion;
     private String lugar;
@@ -30,6 +31,23 @@ public class Pic implements Serializable {
     private HashMap<String, Tag> tags;
 
     public Date date;
+=======
+    public HashMap<String, Tag> getTags() {
+        return tags;
+    }
+
+    String nombre;
+    String descripcion;
+    String lugar;
+    String reaccion;
+    Image image;
+    ArrayList<String> hashtags;
+    ArrayList<Comment> comments;
+    Cam cam;
+    HashMap<String, Tag> tags;
+
+    Date date;
+>>>>>>> 3cc4533b18e456a57f57a76be604d3bfba106150
 
     public Pic() {
         this.nombre = "";
@@ -130,6 +148,14 @@ public class Pic implements Serializable {
 
     public void removeComment(Comment x) {
         this.comments.remove(x);
+    }
+
+    public ArrayList<String> getHashtags() {
+        return hashtags;
+    }
+
+    public void setHashtags(ArrayList<String> hashtags) {
+        this.hashtags = hashtags;
     }
 
     public void addHashtag(String x) {
