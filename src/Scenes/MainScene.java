@@ -10,6 +10,7 @@ import Stages.Showable;
 import Stages.Slideshow;
 import Stages.CreateAlbum;
 import Stages.EditAlbum;
+import Stages.Foto;
 import Stages.UploadStage;
 import clases.Album;
 import clases.Pic;
@@ -203,6 +204,7 @@ public class MainScene implements ControllableScene {
         pic.setSpacing(10);
 
         pic.setOnContextMenuRequested((e) -> {
+            getCMP(p).show(name, e.getSceneX(), e.getSceneY());
         });
 
         pic.setBackground(new Background(new BackgroundFill(Color.rgb(255, 255, 255), CornerRadii.EMPTY, Insets.EMPTY)));
@@ -299,7 +301,12 @@ public class MainScene implements ControllableScene {
         MenuItem edit = new MenuItem("Editar");
         
         cm.getItems().addAll(open, move, edit, delete);
-                
+        
+        open.setOnAction((e)->{
+            Foto f = new Foto(p);
+            f.getStage().show();
+        });
+                        
         return cm;
     }
 

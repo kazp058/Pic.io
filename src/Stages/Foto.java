@@ -66,11 +66,12 @@ public class Foto implements Showable {
         comentario.setOnKeyPressed((e)->{
             if (e.getCode()== KeyCode.ENTER){
                 comentarios.getChildren().add(new Label(comentario.getText()));
+                comentario.setText("");
             }
         });
         comentarios_espacio.getChildren().add(comentarios);
         comentarios_espacio.getChildren().add(comentario);
-
+        boxmaster.getChildren().add(new Label("Comentarios"));
         boxmaster.getChildren().add(comentarios_espacio);
 
         StackPane root = new StackPane(boxmaster);
