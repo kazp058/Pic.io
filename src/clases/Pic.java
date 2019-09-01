@@ -124,6 +124,14 @@ public class Pic implements Serializable {
         this.comments.remove(x);
     }
 
+    public ArrayList<String> getHashtags() {
+        return hashtags;
+    }
+
+    public void setHashtags(ArrayList<String> hashtags) {
+        this.hashtags = hashtags;
+    }
+
     public void addHashtag(String x) {
         this.hashtags.add(x);
     }

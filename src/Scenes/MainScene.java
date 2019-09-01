@@ -179,16 +179,23 @@ public class MainScene implements ControllableScene {
         } else {
             date = new Label("Fecha:\n\tNo hay fecha disponible");
         }
-        
-        String with = "Personas etiquetadas: ";
-        
-        for(String t: p.getTags().keySet()){
-            with += t + ", " ;
+
+        String with = "Personas etiquetadas:\t";
+
+        for (String t : p.getTags().keySet()) {
+            with += t + "\t";
         }
-        
+
         Label comp = new Label(with);
-            
-        sec.getChildren().addAll(name, desc, date, comp);
+
+        String tags = "HashTags:\t";
+        for (String t : p.getHashtags()) {
+            tags += t + "\t";
+        }
+
+        Label compTags = new Label(tags);
+
+        sec.getChildren().addAll(name, desc, date, comp, compTags);
         pic.getChildren().addAll(im, sec);
 
         sec.setAlignment(Pos.TOP_LEFT);

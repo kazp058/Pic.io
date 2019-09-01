@@ -10,6 +10,7 @@ import clases.Album;
 import clases.Pic;
 import clases.Tag;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import javafx.geometry.Insets;
@@ -43,11 +44,13 @@ public class UploadStage implements Showable {
         this.myController = myController;
         this.previewImage = previewImage;
         tags = new HashMap<>();
+        arrayHash = new ArrayList<>();
     }
 
     HashMap<String, Tag> tags;
     private double x;
     private double y;
+    ArrayList<String> arrayHash;
 
     @Override
     public Stage getStage() {
@@ -60,6 +63,7 @@ public class UploadStage implements Showable {
         HBox tagger = new HBox();
         Group groupImage = new Group();
         HBox datePane = new HBox();
+        HBox hastag = new HBox();
 
         Date date = new Date();
 
@@ -86,23 +90,39 @@ public class UploadStage implements Showable {
         TextField nameI = new TextField();
 
         ComboBox albumnes = new ComboBox();
-        
-        
+
+        TextField hashText = new TextField();
+        Button putHash = new Button("Agregar");
+        Label hashtags = new Label("HashTags:\n\t");
+        hastag.getChildren().addAll(hashText, putHash);
+
+        putHash.setOnAction((e) -> {
+            try {
+
+                hashtags.setText(hashtags.getText() + " #" + hashText.getText());
+                arrayHash.add("#" + hashText.getText());
+                hashText.setText("");
+
+            } catch (Exception ge) {
+            }
+
+        });
+
         ComboBox days = new ComboBox();
-        for (int i = 1; i <= 31; i++ ){
+        for (int i = 1; i <= 31; i++) {
             days.getItems().add(i);
         }
-        
+
         ComboBox months = new ComboBox();
-        for(int i = 1; i <=12; i++){
+        for (int i = 1; i <= 12; i++) {
             months.getItems().add(i);
         }
-        
+
         ComboBox years = new ComboBox();
-        for(int i = 2019; i >= 1960; i--){
+        for (int i = 2019; i >= 1960; i--) {
             years.getItems().add(i);
         }
-        
+
         datePane.getChildren().addAll(days, new Label(" / "), months, new Label(" / "), years);
 
         for (Album album : myController.getCurrentUser().getAlbumes()) {
@@ -151,7 +171,7 @@ public class UploadStage implements Showable {
         descp.setSpacing(10);
 
         data.getChildren().addAll(name, nameI);
-        main.getChildren().addAll(data, descp, comboPane, new Label("Fecha:"),datePane,choseFiles, tagger, mainButtons);
+        main.getChildren().addAll(data, descp, hashtags, hastag, comboPane, new Label("Fecha:"), datePane, choseFiles, tagger, mainButtons);
 
         main.setAlignment(Pos.TOP_CENTER);
         data.setAlignment(Pos.CENTER);
@@ -203,16 +223,22 @@ public class UploadStage implements Showable {
             months.setValue(null);
             days.setValue(null);
             years.setValue(null);
+            hashText.setText("");
         });
 
         save.setOnAction((e) -> {
             Pic nPic = new Pic(nameI.getText(), descpI.getText(), preImage.getImage(), tags);
-            nPic.setDate(new Date((int)years.getValue(),(int)months.getValue(),(int)days.getValue()));
+            nPic.setDate(new Date((int) years.getValue(), (int) months.getValue(), (int) days.getValue()));
+            nPic.setHashtags(arrayHash);
             myController.getCurrentUser().getAlbum((String) albumnes.getValue()).addImage(nPic);
             Serialize.actualizarUsuario(myController.getCurrentUser());
             nameI.setText("");
             descpI.setText("");
             albumnes.setValue(null);
+            months.setValue(null);
+            days.setValue(null);
+            years.setValue(null);
+            hashText.setText("");
             preImage.setImage(previewImage);
             tagF.setText("");
             tags.forEach((s, t) -> {
