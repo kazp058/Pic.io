@@ -80,11 +80,13 @@ public class Slideshow implements Showable {
 
         pausa.setOnAction((e) -> {
             if(alive==true){
+                alive=false;
                 slider.suspend();
             }
         });
         play.setOnAction((e) -> {
             if(alive==false){
+                alive=true;
                 slider.resume();
             }
         });
